@@ -1,0 +1,15 @@
+extends layout_main
+
+block content
+	h1 Beers
+	table
+		thead
+		tbody
+			tr(v-for='beer in beers')
+				td 
+					input(type='text', v-model='beer.data.name')
+				td
+					button(@click='beer.save') save
+				td
+					button(@click='beer.delete($event, getAllBeers)') delete
+	button(@click='createNewBeer') new beer

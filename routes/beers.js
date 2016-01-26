@@ -11,6 +11,12 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/:id', function(req, res, next) {
+	Beer.findOne({'_id' : req.params.id}, function(err, beer) {
+		res.send(beer);
+	});
+});
+
 // DELETE
 router.delete('/', function(req, res, next) {
 	if (req._body) {
@@ -43,13 +49,13 @@ router.put('/', function(req, res, next) {
 
 					// TODO: this is stupid :/
 					old_beer.name = new_beer.name;
-					old_beer.save(function(err) {
+					old_beer.save(function(err, beer) {
 						if (err) {
 							console.log(err);
 							res.send(false);
 						}
 						else {
-							res.send(true);
+							res.send(beer);
 						}
 					});
 				}
@@ -63,13 +69,13 @@ router.put('/', function(req, res, next) {
 		}
 		
 		if (createNewBeer) {
-			var beer = new Beer(req.body).save(function(err) {
+			var beer = new Beer(req.body).save(function(err, beer) {
 				if (err) {
 					console.log(err);
 					res.send(false);
 				}
 				else {
-					res.send(true);
+					res.send(beer);
 				}
 			});
 		}
