@@ -4,10 +4,11 @@ block content
 	h1 Beers
 	table
 		thead
+			th(v-for='header in beer_headers') {{ header }}
 		tbody
 			tr(v-for='beer in beers')
-				td 
-					input(type='text', v-model='beer.data.name')
+				td(v-for='header in beer_headers')
+					input(type='text', v-model='beer.data[header]')
 				td
 					button(@click='beer.save') save
 				td

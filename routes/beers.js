@@ -48,7 +48,10 @@ router.put('/', function(req, res, next) {
 					var new_beer = req.body;
 
 					// TODO: this is stupid :/
-					old_beer.name = new_beer.name;
+					for (prop in new_beer) {
+						old_beer[prop] = new_beer[prop];
+					};
+					
 					old_beer.save(function(err, beer) {
 						if (err) {
 							console.log(err);
