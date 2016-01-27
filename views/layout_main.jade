@@ -6,5 +6,30 @@ html
 		script(type='text/javascript', src='/javascripts/jquery.min.js')
 		script(type='text/javascript', src='/javascripts/vue.js')
 	body
+		nav#main_nav
+			a(v-for='nav in navigation', href='{{nav.href}}', :class='{active: activePage == nav.href.split("/")[1]}') {{ nav.name }}
+		script(type='text/javascript').
+			new Vue({
+				el: '#main_nav',
+				data: {
+					navigation: [
+						{
+							href: '/', 
+							name: 'Home'
+						},
+						{
+							href: '/beertestcrud/', 
+							name: 'Beer test-CRUD'
+						}
+					]
+				},
+				computed: {
+					activePage: function() {
+						var url =  window.location.href.split('/')[3];
+						console.log(url);
+						return url;
+					}
+				}
+			})			
 		block content
-	script(type='text/javascript', src='/javascripts/main.js')
+

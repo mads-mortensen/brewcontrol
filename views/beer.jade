@@ -1,0 +1,6 @@
+extends layout_main
+
+block content
+	script var BEER_ID = '!{beer_id}';
+	h1 {{ beer.name }}
+	script(type='text/javascript', src='/javascripts/view_beer.js')

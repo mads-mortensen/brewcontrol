@@ -11,6 +11,11 @@ vue = new Vue({
 		beer_headers_ignore: ['_id', '__v'],
 		Beer: Beer
 	},
+	computed: {
+		isThisPage: function(path) {
+			return true;
+		}
+	},
 	methods: {
 		getAllBeers: function() {
 			self = this;

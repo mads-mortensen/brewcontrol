@@ -1,2 +1,17 @@
 body {
-  background-color: #F0F3F7; }
+  background-color: #F0F3F7;
+  font-family: Arial; }
+
+a.active {
+  color: #79CBC4; }
+
+nav a {
+  margin-right: 10px;
+  line-height: 30px;
+  font-size: 20px;
+  padding: 5px;
+  text-decoration: none;
+  background-color: #263238;
+  color: white; }
+  nav a:last-child {
+    margin-rigt: 0; }
