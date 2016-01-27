@@ -3,12 +3,12 @@
 
 <template>
 	<bc-color>
-		testing color component
+		{{ beer.data.name }} - {{ beer.data.style }}
 	</bc-color>
 </template>
 
 <script>
 	export default {
-		props: ['color_ebc']
+		props: ['beer']
 	}
 </script>

@@ -1,15 +1,16 @@
-$(function() {
-	vue.getAllBeers();
-});
+var Beer = require('./models/Beer.js');
 
 // Vue
 vue = new Vue({
 	el: 'body',
+	ready: function() {
+		this.getAllBeers();
+	},
 	data: {
 		beers: [],
 		beer_headers: [],
 		beer_headers_ignore: ['_id', '__v'],
-		Beer: Beer
+		Beer: Beer // Beer model
 	},
 	computed: {
 		isThisPage: function(path) {
@@ -56,34 +57,3 @@ vue = new Vue({
 		}
 	}
 });
-
-// TODO: make modular, maybe just require('/Beer.js')
-function Beer(data) {
-	var self = this;
-	this.data = (!data) ? false : data;
-	this.save = function(event, callback) {
-		$.ajax({
-			method: 'PUT',
-			url: '/beers/',
-			data: self.data
-		}).done(function(beer) {
-			// TODO: validation
-			console.log("saved beer", beer);
-			if (beer) self.data = beer;
-			if (callback) callback();
-		});
-	}
-	this.delete = function(event, callback) {
-		$.ajax({
-			method: 'DELETE',
-			url: '/beers/',
-			data: self.data
-		}).done(function(success) {
-			// TODO: validation
-			if (success) {
-				self.data = false;
-				if (callback) callback();
-			}
-		});
-	}
-}

@@ -1,9 +1,10 @@
 var bc_color = require('../vue_components/bc_color.vue');
+var Beer = require('./models/Beer.js');
 
 var vue = new Vue({
 	el: 'body',
 	data: {
-		beer: {}
+		beer: {data: []}
 	},
 	components: {
 		'bc-color' : bc_color
@@ -16,7 +17,7 @@ var vue = new Vue({
 				dataType: 'JSON',
 				url: '/beers/' + id,
 				success: function(data) {
-					self.beer = data;
+					self.beer = new Beer(data);
 				} 
 			});
 		}
