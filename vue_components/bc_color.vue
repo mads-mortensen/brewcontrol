@@ -1,10 +1,8 @@
 <style>
 </style>
 
-<template>
-	<bc-color>
-		{{ beer.data.name }} - {{ beer.data.style }}
-	</bc-color>
+<template lang='jade'>
+bc-color {{ beer.data.name }} - {{ beer.data.style }}
 </template>
 
 <script>
