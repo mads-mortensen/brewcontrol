@@ -3,6 +3,14 @@ var Beer = require('./models/Beer.js');
 
 var vue = new Vue({
 	el: 'body',
+	ready: function() {
+		if (BEER_ID) {
+			this.fetchBeer(BEER_ID);
+		}
+		else {
+			console.error("BEER_ID not set");
+		}
+	},
 	data: {
 		beer: {data: []}
 	},
@@ -23,5 +31,3 @@ var vue = new Vue({
 		}
 	}
 })
-
-vue.fetchBeer(BEER_ID);

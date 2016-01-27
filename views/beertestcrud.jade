@@ -2,7 +2,7 @@ extends layout_main
 
 block content
 	h1 Beers
-	table
+	table(v-cloak)
 		thead
 			th(v-for='header in beer_headers') {{ header }}
 		tbody
@@ -15,5 +15,5 @@ block content
 					button(@click='beer.delete($event, getAllBeers)') delete
 				td
 					a(href='/beer/{{beer.data._id}}') LINK
-	button(@click='createNewBeer') new beer
+	button(v-cloak @click='createNewBeer') new beer
 	script(type='text/javascript', src='/javascripts/view_beercrud.js')

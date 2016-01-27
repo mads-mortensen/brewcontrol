@@ -15,3 +15,7 @@ nav a {
   color: white; }
   nav a:last-child {
     margin-rigt: 0; }
+
+/* VUE */
+[v-cloak] {
+  display: none; }

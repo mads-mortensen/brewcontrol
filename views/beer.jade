@@ -1,8 +1,8 @@
 extends layout_main
 
 block content
-	h1 {{ beer.data.name }}
-	#bc_components
+	#bc_beer(v-cloak)
+		h1 {{ beer.data.name }}
 		bc-color(:beer='beer')
-	script var BEER_ID = '!{beer_id}';
-	script(type='text/javascript', src='/javascripts/view_beer.js')
+		script var BEER_ID = '!{beer_id}';
+		script(type='text/javascript', src='/javascripts/view_beer.js')
