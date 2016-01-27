@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
 	entry: {
@@ -17,5 +18,8 @@ module.exports = {
 				loader: 'vue'
 			}
 		]
-	}
+	},
+	plugins: [ 
+		new webpack.optimize.UglifyJsPlugin({minimize: true, compress: { warnings: false}}) //TODO: make conditional (only production)
+	]
 }
