@@ -1,21 +1,81 @@
+/* TODO: !! most styling is just for testing */
 body {
   background-color: #F0F3F7;
-  font-family: Arial; }
+  font-family: Arial;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: #263238; }
+
+html {
+  height: 100%;
+  box-sizing: border-box; }
+
+#main-container {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  min-height: 100%;
+  overflow: hidden; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
 
 a.active {
   color: #79CBC4; }
 
-nav a {
-  margin-right: 10px;
-  line-height: 30px;
-  font-size: 20px;
-  padding: 5px;
-  text-decoration: none;
-  background-color: #263238;
-  color: white; }
-  nav a:last-child {
-    margin-rigt: 0; }
+#bc-components {
+  overflow: hidden;
+  width: 100%;
+  min-height: 14em;
+  background-color: #FFFFFF; }
+
+.bc-component {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  min-height: 14em;
+  float: right;
+  padding: 1em 1em 0 1em; }
+  .bc-component.large {
+    width: 100%;
+    background-color: #FFFFFF; }
+  .bc-component:last-child {
+    padding-bottom: 1em; }
+
+.bc-column {
+  height: 100%;
+  width: 50%;
+  float: left; }
+
+#bc-beer {
+  overflow: hidden;
+  margin: 0 5em 4em 5em;
+  min-height: 42em;
+  padding: 1em;
+  background-color: #D7BD84; }
+
+nav {
+  padding: 1em; }
+  nav a {
+    margin-right: 10px;
+    line-height: 30px;
+    font-size: 20px;
+    padding: 5px;
+    text-decoration: none;
+    background-color: #263238;
+    color: white; }
+    nav a:last-child {
+      margin-rigt: 0; }
 
 /* VUE */
 [v-cloak] {
   display: none; }
+
+/* media queries */
+@media (max-width: 700px) {
+  .bc-column {
+    width: 100%; }
+  #bc-beer {
+    margin: 0; } }
