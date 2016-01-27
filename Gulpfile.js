@@ -10,13 +10,12 @@ gulp.task('styles', function() {
 		.pipe(gulp.dest('./public/stylesheets/'));
 });
 
-/*
 gulp.task('webpack', function() {
 	return gulp.src('./main.js')
 		.pipe(webpack(require('./webpack.config.js')))
 		.pipe(gulp.dest('public/javascripts'));
 });
-*/
+
 gulp.task('copyjs', function () {
 	// vue
 	gulp.src('node_modules/vue/dist/vue.js')
@@ -29,6 +28,6 @@ gulp.task('copyjs', function () {
 
 gulp.task('default',function() {
 	gulp.watch('sass/**/*.scss',['styles']);
-	//gulp.watch('vue_components/**/*.vue',['webpack']); // TODO: combine these?
-	//gulp.watch('main.js',['webpack']);
+	gulp.watch('vue_components/**/*.vue',['webpack']); // TODO: combine these?
+	gulp.watch('main.js',['webpack']);
 });
