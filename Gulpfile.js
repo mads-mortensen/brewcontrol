@@ -26,8 +26,10 @@ gulp.task('copyjs', function () {
 		.pipe(gulp.dest('./public/javascripts/'));
 });
 
-gulp.task('default',function() {
+gulp.task('watch', function() {
 	gulp.watch('sass/**/*.scss',['styles']);
 	gulp.watch('vue_components/**/*.vue',['webpack']); // TODO: combine these?
 	gulp.watch('js/**/*.js',['webpack']);
 });
+
+gulp.task('default', ['webpack', 'styles', 'watch']);
