@@ -1,7 +1,7 @@
 /* TODO: !! most styling is just for testing */
 $bc-component-large-height: 14em;
 $bc-footer-height: 10em;
-$bc-main-padding: 1em;
+$bc-spacing-small: 1em;
 
 body {
 	background-color: #F0F3F7;
@@ -17,17 +17,36 @@ html {
 	box-sizing: border-box;
 }
 
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 #main-container {
 	margin: 0;
 	padding: 0;
 	height: auto;
 	min-height: 100%;
 	overflow: hidden;
-	margin-bottom: $bc-footer-height;
 }
 
-*, *:before, *:after {
-  box-sizing: inherit;
+#content {
+	margin: $bc-spacing-small $bc-spacing-small $bc-footer-height+$bc-spacing-small $bc-spacing-small;
+}
+
+header {
+	background-color: #263238;
+}
+
+footer {
+	clear: both;
+	position: relative;
+	z-index: 10;
+	height: $bc-footer-height;
+	line-height: 3em;
+	margin-top: -$bc-footer-height;
+	background-color: #263238;
+	color: #FFFFFF;
+	display: block;
 }
 
 a.active {
@@ -66,14 +85,14 @@ a.active {
 
 #bc-beer {
 	overflow: hidden;
-	margin: 0 5em $bc-main-padding 5em;
+	margin: 0;
 	min-height: 3*$bc-component-large-height;
-	padding: $bc-main-padding;
+	padding: $bc-spacing-small;
 	background-color: #D7BD84;
 }
 
 nav {
-	padding: $bc-main-padding;
+	padding: $bc-spacing-small;
 	a {
 		margin-right: 10px;
 		line-height: 30px;
@@ -86,18 +105,6 @@ nav {
 			margin-rigt: 0;
 		}
 	}
-}
-
-footer {
-	clear: both;
-	position: relative;
-	z-index: 10;
-	height: $bc-footer-height;
-	line-height: 3em;
-	margin-top: -$bc-footer-height;
-	background-color: #263238;
-	color: #FFFFFF;
-	display: block;
 }
 
 /* VUE */

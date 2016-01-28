@@ -7,9 +7,11 @@ html
 		script(type='text/javascript', src='/javascripts/vue.js')
 	body
 		#main-container
-			nav#main_nav
-				a(v-for='nav in navigation', href='{{nav.href}}', :class='{active: activePage == nav.href.split("/")[1]}') {{ nav.name }}
-			block content
+			header
+				nav#main_nav
+					a(v-for='nav in navigation', href='{{nav.href}}', :class='{active: activePage == nav.href.split("/")[1]}') {{ nav.name }}
+			#content
+				block content
 		footer
 			block footer
 		script(type='text/javascript', src='/javascripts/view_main.js')		
