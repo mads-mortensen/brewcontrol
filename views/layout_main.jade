@@ -8,8 +8,9 @@ html
 	body
 		#main-container
 			header
-				nav#main_nav
+				nav(v-cloak)#main_nav
 					a(v-for='nav in navigation', href='{{nav.href}}', :class='{active: activePage == nav.href.split("/")[1]}') {{ nav.name }}
+					block navlinks
 			#content
 				block content
 		footer

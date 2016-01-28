@@ -6,6 +6,9 @@ var bc_developer_bar = require('../vue_components/bc_developer_bar.vue');
 var Beer = require('./models/Beer');
 var Component = require('./models/Component')
 
+// Components list
+var components_list = require('./constants/components_list')
+
 // container for the components
 var components_element = $('#bc-components');
 
@@ -54,8 +57,13 @@ function fetchComponents(id, then) {
 function setupComponents(beer) {
 	fetchComponents(beer.data._id, function(components) {
 		$(components).each(function(i, el) {
-			var elementTag = el.data.name.replace('_','-');
-			$(components_element).append("<" + elementTag + " :beer='beer' :component_data='components[" + i + "]'></" + elementTag + ">");
+			if (components_list.indexOf(el.data.name) != -1) {
+				var elementTag = el.data.name.replace('_','-');
+				$(components_element).append("<" + elementTag + " :beer='beer' :component_data='components[" + i + "]'></" + elementTag + ">");
+			}
+			else {
+				console.warn("Warning, component " + el.data.name + " is not registered.");
+			}
 		});
 		initVue(beer, components);
 	})	

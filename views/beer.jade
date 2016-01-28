@@ -1,5 +1,8 @@
 extends layout_main
 
+block navlinks
+	a(href='', class='active') Beer #!{ beer_id }
+
 block content
 	#bc-beer(v-cloak)
 		.bc-column.left

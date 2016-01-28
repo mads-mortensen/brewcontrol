@@ -3,7 +3,7 @@ var Beer = require('./models/Beer');
 var Component = require('./models/Component');
 
 // Data
-var components_list = require('./data_components_list.js');
+var components_list = require('./constants/components_list.js');
 
 // Vue
 vue = new Vue({
@@ -19,11 +19,6 @@ vue = new Vue({
 		beer_headers_ignore: ['_id', '__v'],
 		Beer: Beer, // Beer model
 		Component: Component // Component model
-	},
-	computed: {
-		isThisPage: function(path) {
-			return true;
-		}
 	},
 	methods: {
 		getAllComponents: function(cb) {
@@ -95,6 +90,14 @@ vue = new Vue({
 		createNewComponent: function(beer_id, componentName) {
 			var component = new Component({name: componentName, beer_id: beer_id});
 			component.save(false, this.getAllComponents);
+		},
+		saveAllBeers: function() {
+			$(this.beers).each(function(i, beer) {
+				beer.save();	
+			})
+		},
+		confirm: function(message, action, arguments) {
+			if (confirm(message)) action.apply(null, arguments);
 		}
 	}
 });
