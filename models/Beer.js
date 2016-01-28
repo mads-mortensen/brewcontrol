@@ -10,5 +10,3 @@ var schema = new mongoose.Schema({
 });
 
 mongoose.model('Beer', schema);
-
-module.exports = true;

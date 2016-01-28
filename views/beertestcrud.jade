@@ -14,8 +14,20 @@ block content
 				td
 					button(@click='beer.delete($event, getAllBeers)') delete
 				td
-					a(href='/beer/{{beer.data._id}}') LINK
+					a(href='/beer/{{beer.data._id}}') GOTO
+				td
+					div(v-for='component in components' v-if='component.data.beer_id == beer.data._id' style='display:inline-block; float: left; margin-left: 10px') {{ component.data.name }}
+						//- TODO: let's make a nice key value selector thing here
+						input(type='text', v-model='component.data.data')
+						button(@click='component.save') s
+						button(@click='component.delete($event, getAllComponents)') x
 	button(v-cloak @click='createNewBeer') new beer
-
+	br
+	form(v-on:submit.prevent='addComponentToBeer')
+		select(name='component')
+			option(v-for='component in components_list') {{ component }}
+		select(name='beer')
+			option(v-for='beer in beers' value='{{ beer.data._id }}') {{ beer.data.name }}
+		button(type='submit') add
 block scripts
 	script(type='text/javascript', src='/javascripts/view_beercrud.js')

@@ -23,9 +23,10 @@ bc-color.bc-component.large
 
 <script>
 	export default {
-		props: ['beer'],
+		props: ['beer', 'component_data'],
 		data: function() {
 			return {
+				data: $.parseJSON(this.component_data.data.data), //TODO: This is.. data. and stupid to parse json here :(
 				colors: {
 					0	: { colorCode: "ffffff", colorDescription: "	White"},
 					0.5	: { colorCode: "fbf0cb", colorDescription: "Champagne"},
@@ -92,21 +93,23 @@ bc-color.bc-component.large
 				return "#" + this.calculatedColor().colorCode;
 			},
 			beerColorDescription: function() {
-				return this.calculatedColor().colorDescription;
+				return (this.data.color_description) ? this.data.color_description : this.calculatedColor().colorDescription;
 			}
 		},
 		methods: {
 			EbcToSrm: function(ebc) {
+				console.log("ebc: " + ebc + " - srm: " + (ebc * 0.508));
 				return ebc * 0.508;
 			},
 			calculatedColor: function() {
 				var colorSrm = this.EbcToSrm(this.beer.data.target_ebc);
-				var closestValue = 0;
+				var closestValue = 100000;
 				for (var value in this.colors) {
-					if (Math.abs(value - colorSrm) < Math.abs(value - closestValue)) {
+					if (Math.abs(parseFloat(value) - parseFloat(colorSrm)) < Math.abs(parseFloat(closestValue) - parseFloat(colorSrm))) {
 						closestValue = value;
 					}
 				}
+
 				return this.colors[closestValue];
 			}
 		}

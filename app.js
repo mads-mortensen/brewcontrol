@@ -13,10 +13,12 @@ mongoose.connect('mongodb://localhost/brewcontrol');
 
 // models
 require('./models/Beer');
+require('./models/Component');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var beers = require('./routes/beers');
+var components = require('./routes/components');
 
 var app = express();
 
@@ -34,7 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/beers', beers)
+app.use('/beers', beers);
+app.use('/components', components);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
