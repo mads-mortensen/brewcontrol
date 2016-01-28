@@ -1,6 +1,6 @@
 /* TODO: !! most styling is just for testing */
 $bc-component-large-height: 14em;
-$bc-footer-height: 3em;
+$bc-footer-height: 10em;
 $bc-main-padding: 1em;
 
 body {
@@ -23,6 +23,7 @@ html {
 	height: auto;
 	min-height: 100%;
 	overflow: hidden;
+	margin-bottom: $bc-footer-height;
 }
 
 *, *:before, *:after {
@@ -65,7 +66,7 @@ a.active {
 
 #bc-beer {
 	overflow: hidden;
-	margin: 0 5em $bc-footer-height+$bc-main-padding 5em;
+	margin: 0 5em $bc-main-padding 5em;
 	min-height: 3*$bc-component-large-height;
 	padding: $bc-main-padding;
 	background-color: #D7BD84;
@@ -85,6 +86,18 @@ nav {
 			margin-rigt: 0;
 		}
 	}
+}
+
+footer {
+	clear: both;
+	position: relative;
+	z-index: 10;
+	height: $bc-footer-height;
+	line-height: 3em;
+	margin-top: -$bc-footer-height;
+	background-color: #263238;
+	color: #FFFFFF;
+	display: block;
 }
 
 /* VUE */
