@@ -1,29 +1,48 @@
 module.exports = function(data) {
 	var self = this;
-	this.data = (!data) ? false : data;
-	this.save = function(event, callback) {
-		$.ajax({
+	self.data = data || false;
+	self.type = data.type || false;
+
+	self.hidden = true;
+
+	self.parseJSON = function(str) {
+		try {
+			var obj = JSON.parse(str);
+			return obj;
+		}
+		catch(error) {
+			console.log("error when parsing component data: ", error);
+			return {};
+		}
+	}
+
+	self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+
+	self.save = function(event, useComponentData) {
+		if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
+		return $.ajax({
 			method: 'PUT',
 			url: '/components/',
 			data: self.data
 		}).done(function(component) {
-			// TODO: validation
 			console.log("saved component", component);
-			if (component) self.data = component;
-			if (callback) callback();
-		});
+			self.hidden = true;
+			if (component) {
+				self.data = component;
+				self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+			}
+		})
 	}
-	this.delete = function(event, callback) {
-		$.ajax({
+	self.saveComponentData = function(event) {
+		return self.save(event, true);
+	}
+	self.delete = function() {
+		return $.ajax({
 			method: 'DELETE',
 			url: '/components/',
 			data: self.data
 		}).done(function(success) {
-			// TODO: validation
-			if (success) {
-				self.data = false;
-				if (callback) callback();
-			}
-		});
+			self.data = false;
+		})
 	}
 }

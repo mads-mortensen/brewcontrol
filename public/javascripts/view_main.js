@@ -1,1 +1,78 @@
-!function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={exports:{},id:r,loaded:!1};return e[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}({0:function(e,t,n){n(17)},17:function(e,t){new Vue({el:"#main_nav",data:{navigation:[{href:"/",name:"Home"},{href:"/beertestcrud/",name:"Beer test-CRUD"}]},computed:{activePage:function(){return window.location.href.split("/")[3]}}})}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 0:
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(19);
+
+/***/ },
+
+/***/ 19:
+/***/ function(module, exports) {
+
+	new Vue({
+		el: '#main_nav',
+		data: {
+			navigation: [
+				{
+					href: '/', 
+					name: 'Home'
+				},
+				{
+					href: '/beertestcrud/', 
+					name: 'Beer test-CRUD'
+				}
+			]
+		},
+		computed: {
+			activePage: function() {
+				return window.location.href.split('/')[3];
+			}
+		}
+	})
+
+/***/ }
+
+/******/ });

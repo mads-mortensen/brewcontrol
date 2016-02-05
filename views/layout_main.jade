@@ -2,19 +2,23 @@ doctype html
 html
 	head
 		title= title
-		link(rel='stylesheet', href='/stylesheets/style.css')
-		script(type='text/javascript', src='/javascripts/jquery.min.js')
-		script(type='text/javascript', src='/javascripts/vue.js')
+		link(rel="stylesheet", href="/stylesheets/style.css")
+		script(type="text/javascript", src="/javascripts/jquery.min.js")
+		script(type="text/javascript", src="/javascripts/vue.js")
 	body
 		#main-container
 			header
 				nav(v-cloak)#main_nav
-					a(v-for='nav in navigation', href='{{nav.href}}', :class='{active: activePage == nav.href.split("/")[1]}') {{ nav.name }}
+					a(
+						v-for="nav in navigation"
+						href="{{nav.href}}"
+						:class="{active: activePage == nav.href.split('/')[1]}"
+					) {{ nav.name }}
 					block navlinks
 			#content
 				block content
 		footer
 			block footer
-		script(type='text/javascript', src='/javascripts/view_main.js')		
-		script(type='text/javascript') Vue.config.debug = true
+		script(type="text/javascript", src="/javascripts/view_main.js")		
+		script(type="text/javascript") Vue.config.debug = true
 		block scripts

@@ -7,6 +7,9 @@ bc-developer-bar
 
 <script>
 	export default {
-		props: ['beer']
+		props: ['beer'],
+		name: 'test',
+		data: function() {
+		}
 	}
 </script>

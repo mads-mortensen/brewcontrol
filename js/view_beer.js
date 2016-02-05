@@ -1,72 +1,44 @@
-// vue components
-var bc_color = require('../vue_components/bc_color.vue');
-var bc_developer_bar = require('../vue_components/bc_developer_bar.vue');
-
-// models
-var Beer = require('./models/Beer');
-var Component = require('./models/Component')
-
-// Components list
-var components_list = require('./constants/components_list')
-
-// container for the components
-var components_element = $('#bc-components');
+var components = require('../vue_components/components.js');
+components['bc-developer-bar'] =  require('../vue_components/bc_developer_bar.vue');
 
 // vue
-var vue;
-function initVue(beer, components) {
-	vue = new Vue({
-		el: 'body',
-		data: {
-			beer: beer,
-			components: components
-		},
-		components: {
-			'bc-color' : bc_color,
-			'bc-developer-bar' : bc_developer_bar
-		}
-	})
-}
-
-function fetchBeer(id, then) {
-	$.ajax({
-		method: 'GET',
-		dataType: 'JSON',
-		url: '/beers/' + id,
-		success: function(data) {
-			then(new Beer(data));
-		} 
-	});
-}
-
-function fetchComponents(id, then) {
-	$.ajax({
-		method: 'GET',
-		dataType: 'JSON',
-		url: '/components/beer/' + id,
-		success: function(data) {
-			var components = [];
-			$(data).each(function(i, el) {
-				components.push(new Component(el));
+new Vue({
+	el: 'body',
+	ready: function() {
+		var self = this;
+		self.fetchBeer(BEER_ID)
+			.then((data) => {
+				self.beer = new self.Beer(data);
+				return self.fetchComponents(BEER_ID);
 			})
-			then(components);
-		} 
-	});
-}
-
-function setupComponents(beer) {
-	fetchComponents(beer.data._id, function(components) {
-		$(components).each(function(i, el) {
-			if (components_list.indexOf(el.data.name) != -1) {
-				var elementTag = el.data.name.replace('_','-');
-				$(components_element).append("<" + elementTag + " :beer='beer' :component_data='components[" + i + "]'></" + elementTag + ">");
-			}
-			else {
-				console.warn("Warning, component " + el.data.name + " is not registered.");
-			}
-		});
-		initVue(beer, components);
-	})	
-}
-
-fetchBeer(BEER_ID, setupComponents);
+			.then((components) => {
+				for (var component of components) {
+					self.components.push(new self.Component(component));
+				}
+			})
+	},
+	data: {
+		Beer: require('./models/Beer'), // Beer model
+		Component: require('./models/Component'), // Component model
+		beer: {data: {}}, // empty beer object
+		components: []
+	},
+	methods: {
+		fetchBeer: function(id) {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/beers/' + id
+			});
+		},
+		fetchComponents: function(id) {
+			var self = this;
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/components/beer/' + id
+			})
+		}
+	},
+	components: components
+})

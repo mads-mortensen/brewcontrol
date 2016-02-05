@@ -20,6 +20,6 @@ module.exports = {
 		]
 	},
 	plugins: [ 
-		new webpack.optimize.UglifyJsPlugin({minimize: true, compress: { warnings: false}}) //TODO: make conditional (only production)
+		//new webpack.optimize.UglifyJsPlugin() //TODO: make conditional (only production)
 	]
 }

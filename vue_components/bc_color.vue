@@ -14,30 +14,56 @@
 
 <template lang='jade'>
 bc-color.bc-component.large
-	.bc-color-colorbox(v-bind:style="{ backgroundColor: beerColorHex }")
-	.bc-color-description
+	.bc-color-colorbox(
+		v-bind:style="{ backgroundColor: beerColorHex }"
+	)
+	.bc-color-description(
+		v-if="options.hideDescription.value != 'True'"
+	)
 		h1 Beer color
 		p Color description: <b>{{ beerColorDescription }}</b>
 		p EBC: <b>{{ beer.data.target_ebc }}</b>
 </template>
 
 <script>
-	var beer_color_list = require('../js/constants/beer_color_list')
+
+	var BC = require('./bc_component.js');
+	var bc = new BC();
+	bc.id = 'bc_color';
+	bc.name = 'Color';
+	bc.directive = 'bc-color';
+	bc.options = {
+		colorDescription:  new bc.Option({
+			name: 'Color description',
+			id: 'colorDescription',
+		}),
+		colorHex: new bc.Option({
+			name: 'Color (hex value)',
+			id: 'colorHex',
+		}),
+		hideDescription: new bc.Option({
+			name: 'Hide description?',
+			id: 'hideDescription',
+			type: 'Boolean',
+			value: false
+		})
+	}
 
 	export default {
-		props: ['beer', 'component_data'],
+		bc: bc,
+		props: ['beer', 'component'],
 		data: function() {
 			return {
-				data: $.parseJSON(this.component_data.data.data), //TODO: This is.. data. and stupid to parse json here :(
-				colors: beer_color_list
+				colors: require('../js/data/beer_color_list'), //TODO: this is not good?
+				options: bc.optionValues()
 			}
 		},
 		computed: {
 			beerColorHex: function() {
-				return "#" + this.calculatedColor().colorCode;
+				return this.options.colorHex.value || "#" + this.calculatedColor().colorCode;
 			},
 			beerColorDescription: function() {
-				return (this.data.color_description) ? this.data.color_description : this.calculatedColor().colorDescription;
+				return this.options.colorDescription.value || this.calculatedColor().colorDescription;
 			}
 		},
 		methods: {
@@ -45,14 +71,12 @@ bc-color.bc-component.large
 				return ebc * 0.508;
 			},
 			calculatedColor: function() {
-				var colorSrm = this.EbcToSrm(this.beer.data.target_ebc);
-				var closestValue = 100000;
+				var colorSrm = this.EbcToSrm(this.beer.data.target_ebc), closestValue = 100000;
 				for (var value in this.colors) {
 					if (Math.abs(parseFloat(value) - parseFloat(colorSrm)) < Math.abs(parseFloat(closestValue) - parseFloat(colorSrm))) {
 						closestValue = value;
 					}
 				}
-
 				return this.colors[closestValue];
 			}
 		}

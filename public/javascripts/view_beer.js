@@ -1,1 +1,876 @@
-!function(o){function e(t){if(r[t])return r[t].exports;var n=r[t]={exports:{},id:t,loaded:!1};return o[t].call(n.exports,n,n.exports,e),n.loaded=!0,n.exports}var r={};return e.m=o,e.c=r,e.p="",e(0)}([function(o,e,r){function t(o,e){l=new Vue({el:"body",data:{beer:o,components:e},components:{"bc-color":a,"bc-developer-bar":s}})}function n(o,e){$.ajax({method:"GET",dataType:"JSON",url:"/beers/"+o,success:function(o){e(new d(o))}})}function c(o,e){$.ajax({method:"GET",dataType:"JSON",url:"/components/beer/"+o,success:function(o){var r=[];$(o).each(function(o,e){r.push(new p(e))}),e(r)}})}function i(o){c(o.data._id,function(e){$(e).each(function(o,e){if(-1!=u.indexOf(e.data.name)){var r=e.data.name.replace("_","-");$(f).append("<"+r+" :beer='beer' :component_data='components["+o+"]'></"+r+">")}else console.warn("Warning, component "+e.data.name+" is not registered.")}),t(o,e)})}var l,a=r(1),s=r(9),d=r(14),p=r(15),u=r(16),f=$("#bc-components");n(BEER_ID,i)},function(o,e,r){var t,n;r(2),t=r(6),n=r(8),o.exports=t||{},o.exports.__esModule&&(o.exports=o.exports["default"]),n&&(("function"==typeof o.exports?o.exports.options:o.exports).template=n)},function(o,e,r){var t=r(3);"string"==typeof t&&(t=[[o.id,t,""]]);r(5)(t,{});t.locals&&(o.exports=t.locals)},function(o,e,r){e=o.exports=r(4)(),e.push([o.id,".bc-color-colorbox{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.bc-color-description{-webkit-box-flex:2;-webkit-flex:2;-ms-flex:2;flex:2;padding:0 1em}bc-color{background-color:#6c6d7a;display:inline-block}","",{version:3,sources:["/../../../../../vue-loader/lib/style-rewriter.js?id=_v-0787c334&file=bc_color.vue!/Users/mads/Google Drive/sites/brewcontrol/node_modules/vue-loader/lib/selector.js?type=style&index=0!/Users/mads/Google Drive/sites/brewcontrol/vue_components/bc_color.vue.style"],names:[],mappings:"AACA,mBACA,mBAAA,eAAA,WAAA,MAAA,CACA,AACA,sBACA,mBAAA,eAAA,WAAA,OAAA,AACA,aAAA,CACA,AACA,SACA,yBAAA,AACA,oBAAA,CACA",file:"bc_color.vue",sourcesContent:["<style>\n	.bc-color-colorbox {\n		flex: 1;\n	}\n	.bc-color-description {\n		flex: 2;\n		padding: 0 1em 0 1em;\n	}\n	bc-color {\n		background-color: #6C6D7A;\n		display: inline-block;\n	}\n</style>\n\n<template lang='jade'>\nbc-color.bc-component.large\n	.bc-color-colorbox(v-bind:style=\"{ backgroundColor: beerColorHex }\")\n	.bc-color-description\n		h1 Beer color\n		p Color description: <b>{{ beerColorDescription }}</b>\n		p EBC: <b>{{ beer.data.target_ebc }}</b>\n</template>\n\n<script>\n	var beer_color_list = require('../js/constants/beer_color_list')\n\n	export default {\n		props: ['beer', 'component_data'],\n		data: function() {\n			return {\n				data: $.parseJSON(this.component_data.data.data), //TODO: This is.. data. and stupid to parse json here :(\n				colors: beer_color_list\n			}\n		},\n		computed: {\n			beerColorHex: function() {\n				return \"#\" + this.calculatedColor().colorCode;\n			},\n			beerColorDescription: function() {\n				return (this.data.color_description) ? this.data.color_description : this.calculatedColor().colorDescription;\n			}\n		},\n		methods: {\n			EbcToSrm: function(ebc) {\n				return ebc * 0.508;\n			},\n			calculatedColor: function() {\n				var colorSrm = this.EbcToSrm(this.beer.data.target_ebc);\n				var closestValue = 100000;\n				for (var value in this.colors) {\n					if (Math.abs(parseFloat(value) - parseFloat(colorSrm)) < Math.abs(parseFloat(closestValue) - parseFloat(colorSrm))) {\n						closestValue = value;\n					}\n				}\n\n				return this.colors[closestValue];\n			}\n		}\n	}\n</script>\n"],sourceRoot:"webpack://"}])},function(o,e){o.exports=function(){var o=[];return o.toString=function(){for(var o=[],e=0;e<this.length;e++){var r=this[e];r[2]?o.push("@media "+r[2]+"{"+r[1]+"}"):o.push(r[1])}return o.join("")},o.i=function(e,r){"string"==typeof e&&(e=[[null,e,""]]);for(var t={},n=0;n<this.length;n++){var c=this[n][0];"number"==typeof c&&(t[c]=!0)}for(n=0;n<e.length;n++){var i=e[n];"number"==typeof i[0]&&t[i[0]]||(r&&!i[2]?i[2]=r:r&&(i[2]="("+i[2]+") and ("+r+")"),o.push(i))}},o}},function(o,e,r){function t(o,e){for(var r=0;r<o.length;r++){var t=o[r],n=f[t.id];if(n){n.refs++;for(var c=0;c<n.parts.length;c++)n.parts[c](t.parts[c]);for(;c<t.parts.length;c++)n.parts.push(s(t.parts[c],e))}else{for(var i=[],c=0;c<t.parts.length;c++)i.push(s(t.parts[c],e));f[t.id]={id:t.id,refs:1,parts:i}}}}function n(o){for(var e=[],r={},t=0;t<o.length;t++){var n=o[t],c=n[0],i=n[1],l=n[2],a=n[3],s={css:i,media:l,sourceMap:a};r[c]?r[c].parts.push(s):e.push(r[c]={id:c,parts:[s]})}return e}function c(o,e){var r=h(),t=D[D.length-1];if("top"===o.insertAt)t?t.nextSibling?r.insertBefore(e,t.nextSibling):r.appendChild(e):r.insertBefore(e,r.firstChild),D.push(e);else{if("bottom"!==o.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");r.appendChild(e)}}function i(o){o.parentNode.removeChild(o);var e=D.indexOf(o);e>=0&&D.splice(e,1)}function l(o){var e=document.createElement("style");return e.type="text/css",c(o,e),e}function a(o){var e=document.createElement("link");return e.rel="stylesheet",c(o,e),e}function s(o,e){var r,t,n;if(e.singleton){var c=v++;r=m||(m=l(e)),t=d.bind(null,r,c,!1),n=d.bind(null,r,c,!0)}else o.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(r=a(e),t=u.bind(null,r),n=function(){i(r),r.href&&URL.revokeObjectURL(r.href)}):(r=l(e),t=p.bind(null,r),n=function(){i(r)});return t(o),function(e){if(e){if(e.css===o.css&&e.media===o.media&&e.sourceMap===o.sourceMap)return;t(o=e)}else n()}}function d(o,e,r,t){var n=r?"":t.css;if(o.styleSheet)o.styleSheet.cssText=x(e,n);else{var c=document.createTextNode(n),i=o.childNodes;i[e]&&o.removeChild(i[e]),i.length?o.insertBefore(c,i[e]):o.appendChild(c)}}function p(o,e){var r=e.css,t=e.media;e.sourceMap;if(t&&o.setAttribute("media",t),o.styleSheet)o.styleSheet.cssText=r;else{for(;o.firstChild;)o.removeChild(o.firstChild);o.appendChild(document.createTextNode(r))}}function u(o,e){var r=e.css,t=(e.media,e.sourceMap);t&&(r+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(t))))+" */");var n=new Blob([r],{type:"text/css"}),c=o.href;o.href=URL.createObjectURL(n),c&&URL.revokeObjectURL(c)}var f={},b=function(o){var e;return function(){return"undefined"==typeof e&&(e=o.apply(this,arguments)),e}},C=b(function(){return/msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase())}),h=b(function(){return document.head||document.getElementsByTagName("head")[0]}),m=null,v=0,D=[];o.exports=function(o,e){e=e||{},"undefined"==typeof e.singleton&&(e.singleton=C()),"undefined"==typeof e.insertAt&&(e.insertAt="bottom");var r=n(o);return t(r,e),function(o){for(var c=[],i=0;i<r.length;i++){var l=r[i],a=f[l.id];a.refs--,c.push(a)}if(o){var s=n(o);t(s,e)}for(var i=0;i<c.length;i++){var a=c[i];if(0===a.refs){for(var d=0;d<a.parts.length;d++)a.parts[d]();delete f[a.id]}}}};var x=function(){var o=[];return function(e,r){return o[e]=r,o.filter(Boolean).join("\n")}}()},function(o,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=r(7);e["default"]={props:["beer","component_data"],data:function(){return{data:$.parseJSON(this.component_data.data.data),colors:t}},computed:{beerColorHex:function(){return"#"+this.calculatedColor().colorCode},beerColorDescription:function(){return this.data.color_description?this.data.color_description:this.calculatedColor().colorDescription}},methods:{EbcToSrm:function(o){return.508*o},calculatedColor:function(){var o=this.EbcToSrm(this.beer.data.target_ebc),e=1e5;for(var r in this.colors)Math.abs(parseFloat(r)-parseFloat(o))<Math.abs(parseFloat(e)-parseFloat(o))&&(e=r);return this.colors[e]}}}},function(o,e){o.exports={0:{colorCode:"ffffff",colorDescription:"White"},.5:{colorCode:"fbf0cb",colorDescription:"Champagne"},1:{colorCode:"f7e1a1",colorDescription:"Candleglow"},1.5:{colorCode:"f4d380",colorDescription:"Broadway Lights"},2:{colorCode:"f0c566",colorDescription:"Cream Can"},2.5:{colorCode:"edb950",colorDescription:"Casablanca"},3:{colorCode:"e9ad3f",colorDescription:"Tulip Tree"},3.5:{colorCode:"e5a231",colorDescription:"Fire Bush"},4:{colorCode:"e19726",colorDescription:"Buttercup"},4.5:{colorCode:"dd8d1d",colorDescription:"Zest"},5:{colorCode:"d98416",colorDescription:"Golden Bell"},5.5:{colorCode:"d57b11",colorDescription:"Meteor"},6:{colorCode:"d1730c",colorDescription:"Dark Goldenrod"},6.5:{colorCode:"cd6c08",colorDescription:"Indochine"},7:{colorCode:"c86505",colorDescription:"Alloy Orange"},7.5:{colorCode:"c45e03",colorDescription:"Tawny"},8:{colorCode:"c05801",colorDescription:"Rose of Sharon"},8.5:{colorCode:"bc5200",colorDescription:"Ruddy Brown"},9:{colorCode:"b74d00",colorDescription:"Mahogany"},9.5:{colorCode:"b34800",colorDescription:"Fire"},10:{colorCode:"af4300",colorDescription:"Orange"},10.5:{colorCode:"ab3f00",colorDescription:"Dark Orange"},11:{colorCode:"a73b00",colorDescription:"Chinese Red"},11.5:{colorCode:"a33700",colorDescription:"Quora"},12:{colorCode:"9f3400",colorDescription:"Sangria"},12.5:{colorCode:"9b3000",colorDescription:"Dark Orange-Red"},13:{colorCode:"972d00",colorDescription:"Totem Pole"},14:{colorCode:"8f2800",colorDescription:"Peru Tan"},15:{colorCode:"882300",colorDescription:"Red Beech"},16:{colorCode:"811f00",colorDescription:"Maroon"},17:{colorCode:"7b1b00",colorDescription:"Pueblo"},18:{colorCode:"741800",colorDescription:"Cedar Wood"},19:{colorCode:"6e1500",colorDescription:"Barn Red"},20:{colorCode:"681200",colorDescription:"Rosewood"},21:{colorCode:"631000",colorDescription:"Dark Red"},22:{colorCode:"5e0e00",colorDescription:"Red Oxide"},23:{colorCode:"590c00",colorDescription:"Rustic Red"},24:{colorCode:"540b00",colorDescription:"Burnt Maroon"},25:{colorCode:"500900",colorDescription:"Pheasant Red"},26:{colorCode:"4c0800",colorDescription:"Brown Pod"},27:{colorCode:"480700",colorDescription:"Temptress"},28:{colorCode:"440600",colorDescription:"Dark Sienna"},29:{colorCode:"410500",colorDescription:"Black Bean"},30:{colorCode:"3d0500",colorDescription:"Dark Bronze"},31:{colorCode:"3a0400",colorDescription:"Chocolate"},32:{colorCode:"370400",colorDescription:"Autumn Maple"},33:{colorCode:"340300",colorDescription:"Dark Cabernet"},34:{colorCode:"320300",colorDescription:"Titian Maroon"},35:{colorCode:"2f0200",colorDescription:"Sepia Black"},36:{colorCode:"2d0200",colorDescription:"Dark Gold Wing"},37:{colorCode:"2a0200",colorDescription:"Zinnwaldite Brown"},38:{colorCode:"280100",colorDescription:"Diesel"},39:{colorCode:"260100",colorDescription:"Licorice"},40:{colorCode:"240100",colorDescription:"Black"},50:{colorCode:"160000",colorDescription:"Smoky Black"},65:{colorCode:"0d0000",colorDescription:"Coal Black"},80:{colorCode:"000000",colorDescription:"Moonlight Black"}}},function(o,e){o.exports='<bc-color class="bc-component large"><div v-bind:style="{ backgroundColor: beerColorHex }" class=bc-color-colorbox></div><div class=bc-color-description><h1>Beer color</h1><p>Color description: <b>{{ beerColorDescription }}</b></p><p>EBC: <b>{{ beer.data.target_ebc }}</b></p></div></bc-color>'},function(o,e,r){var t,n;r(10),t=r(12),n=r(13),o.exports=t||{},o.exports.__esModule&&(o.exports=o.exports["default"]),n&&(("function"==typeof o.exports?o.exports.options:o.exports).template=n)},function(o,e,r){var t=r(11);"string"==typeof t&&(t=[[o.id,t,""]]);r(5)(t,{});t.locals&&(o.exports=t.locals)},function(o,e,r){e=o.exports=r(4)(),e.push([o.id,"","",{version:3,sources:[],names:[],mappings:"",file:"bc_developer_bar.vue",sourceRoot:"webpack://"}])},function(o,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={props:["beer"]}},function(o,e){o.exports="<bc-developer-bar></bc-developer-bar>"},function(o,e){o.exports=function(o){var e=this;this.data=o?o:!1,this.save=function(o,r){$.ajax({method:"PUT",url:"/beers/",data:e.data}).done(function(o){console.log("saved beer",o),o&&(e.data=o),r&&r()})},this["delete"]=function(o,r){$.ajax({method:"DELETE",url:"/beers/",data:e.data}).done(function(o){o&&(e.data=!1,r&&r())})}}},function(o,e){o.exports=function(o){var e=this;this.data=o?o:!1,this.save=function(o,r){$.ajax({method:"PUT",url:"/components/",data:e.data}).done(function(o){console.log("saved component",o),o&&(e.data=o),r&&r()})},this["delete"]=function(o,r){$.ajax({method:"DELETE",url:"/components/",data:e.data}).done(function(o){o&&(e.data=!1,r&&r())})}}},function(o,e){o.exports=["bc_color"]}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var components = __webpack_require__(1);
+	components['bc-developer-bar'] =  __webpack_require__(12);
+
+	// vue
+	new Vue({
+		el: 'body',
+		ready: function() {
+			var self = this;
+			self.fetchBeer(BEER_ID)
+				.then((data) => {
+					self.beer = new self.Beer(data);
+					return self.fetchComponents(BEER_ID);
+				})
+				.then((components) => {
+					for (var component of components) {
+						self.components.push(new self.Component(component));
+					}
+				})
+		},
+		data: {
+			Beer: __webpack_require__(17), // Beer model
+			Component: __webpack_require__(18), // Component model
+			beer: {data: {}}, // empty beer object
+			components: []
+		},
+		methods: {
+			fetchBeer: function(id) {
+				return $.ajax({
+					method: 'GET',
+					dataType: 'JSON',
+					url: '/beers/' + id
+				});
+			},
+			fetchComponents: function(id) {
+				var self = this;
+				return $.ajax({
+					method: 'GET',
+					dataType: 'JSON',
+					url: '/components/beer/' + id
+				})
+			}
+		},
+		components: components
+	})
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {};
+
+	var components_context = __webpack_require__(2);
+	components_context.keys().forEach(function(file) {
+		var component = components_context(file);
+		if (component.bc) {
+			// Set options if provided by component data from db
+			component.ready = function() {
+				for (var option in this.options) {
+					if (this.component.componentData[option]) {
+						this.options[option].value = this.component.componentData[option];
+					}
+				}
+			};
+			module.exports[component.bc.directive] = component;
+		}
+	})
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./bc_color.vue": 3,
+		"./bc_developer_bar.vue": 12
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 2;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(4)
+	__vue_script__ = __webpack_require__(8)
+	__vue_template__ = __webpack_require__(11)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/mads/Google Drive/sites/brewcontrol/vue_components/bc_color.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(5);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0787c334&file=bc_color.vue!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./bc_color.vue", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0787c334&file=bc_color.vue!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./bc_color.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n\t.bc-color-colorbox {\n\t\t-webkit-box-flex: 1;\n\t\t-webkit-flex: 1;\n\t\t    -ms-flex: 1;\n\t\t        flex: 1;\n\t}\n\t.bc-color-description {\n\t\t-webkit-box-flex: 2;\n\t\t-webkit-flex: 2;\n\t\t    -ms-flex: 2;\n\t\t        flex: 2;\n\t\tpadding: 0 1em 0 1em;\n\t}\n\tbc-color {\n\t\tbackground-color: #6C6D7A;\n\t\tdisplay: inline-block;\n\t}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <style>
+	// 	.bc-color-colorbox {
+	// 		flex: 1;
+	// 	}
+	// 	.bc-color-description {
+	// 		flex: 2;
+	// 		padding: 0 1em 0 1em;
+	// 	}
+	// 	bc-color {
+	// 		background-color: #6C6D7A;
+	// 		display: inline-block;
+	// 	}
+	// </style>
+	//
+	// <template lang='jade'>
+	// bc-color.bc-component.large
+	// 	.bc-color-colorbox(
+	// 		v-bind:style="{ backgroundColor: beerColorHex }"
+	// 	)
+	// 	.bc-color-description(
+	// 		v-if="options.hideDescription.value != 'True'"
+	// 	)
+	// 		h1 Beer color
+	// 		p Color description: <b>{{ beerColorDescription }}</b>
+	// 		p EBC: <b>{{ beer.data.target_ebc }}</b>
+	// </template>
+	//
+	// <script>
+
+	var BC = __webpack_require__(9);
+	var bc = new BC();
+	bc.id = 'bc_color';
+	bc.name = 'Color';
+	bc.directive = 'bc-color';
+	bc.options = {
+		colorDescription: new bc.Option({
+			name: 'Color description',
+			id: 'colorDescription'
+		}),
+		colorHex: new bc.Option({
+			name: 'Color (hex value)',
+			id: 'colorHex'
+		}),
+		hideDescription: new bc.Option({
+			name: 'Hide description?',
+			id: 'hideDescription',
+			type: 'Boolean',
+			value: false
+		})
+	};
+
+	exports.default = {
+		bc: bc,
+		props: ['beer', 'component'],
+		data: function data() {
+			return {
+				colors: __webpack_require__(10), //TODO: this is not good?
+				options: bc.optionValues()
+			};
+		},
+		computed: {
+			beerColorHex: function beerColorHex() {
+				return this.options.colorHex.value || "#" + this.calculatedColor().colorCode;
+			},
+			beerColorDescription: function beerColorDescription() {
+				return this.options.colorDescription.value || this.calculatedColor().colorDescription;
+			}
+		},
+		methods: {
+			EbcToSrm: function EbcToSrm(ebc) {
+				return ebc * 0.508;
+			},
+			calculatedColor: function calculatedColor() {
+				var colorSrm = this.EbcToSrm(this.beer.data.target_ebc),
+				    closestValue = 100000;
+				for (var value in this.colors) {
+					if (Math.abs(parseFloat(value) - parseFloat(colorSrm)) < Math.abs(parseFloat(closestValue) - parseFloat(colorSrm))) {
+						closestValue = value;
+					}
+				}
+				return this.colors[closestValue];
+			}
+		}
+	};
+	// </script>
+	//
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function() {
+		this.optionValues = function() {
+			var obj = {};
+			for (var option in this.options) {
+				obj[option] = {};
+				obj[option].value = '';
+			}
+			return obj;
+		}
+		this.options = {},
+		this.Option = function(obj) {
+			obj = obj || {};
+			return {
+				name: obj.name || '',
+				id: obj.id || '',
+				type: obj.type || 'String',
+				value: obj.value || ''
+			}
+		}
+	}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		0	: { colorCode: "ffffff", colorDescription: "White"},
+		0.5	: { colorCode: "fbf0cb", colorDescription: "Champagne"},
+		1	: { colorCode: "f7e1a1", colorDescription: "Candleglow"},
+		1.5	: { colorCode: "f4d380", colorDescription: "Broadway Lights"},
+		2	: { colorCode: "f0c566", colorDescription: "Cream Can"},
+		2.5	: { colorCode: "edb950", colorDescription: "Casablanca"},
+		3	: { colorCode: "e9ad3f", colorDescription: "Tulip Tree"},
+		3.5	: { colorCode: "e5a231", colorDescription: "Fire Bush"},
+		4	: { colorCode: "e19726", colorDescription: "Buttercup"},
+		4.5	: { colorCode: "dd8d1d", colorDescription: "Zest"},
+		5	: { colorCode: "d98416", colorDescription: "Golden Bell"},
+		5.5	: { colorCode: "d57b11", colorDescription: "Meteor"},
+		6	: { colorCode: "d1730c", colorDescription: "Dark Goldenrod"},
+		6.5	: { colorCode: "cd6c08", colorDescription: "Indochine"},
+		7	: { colorCode: "c86505", colorDescription: "Alloy Orange"},
+		7.5	: { colorCode: "c45e03", colorDescription: "Tawny"},
+		8	: { colorCode: "c05801", colorDescription: "Rose of Sharon"},
+		8.5	: { colorCode: "bc5200", colorDescription: "Ruddy Brown"},
+		9	: { colorCode: "b74d00", colorDescription: "Mahogany"},
+		9.5	: { colorCode: "b34800", colorDescription: "Fire"},
+		10	: { colorCode: "af4300", colorDescription: "Orange"},
+		10.5	: { colorCode: "ab3f00", colorDescription: "Dark Orange"},
+		11	: { colorCode: "a73b00", colorDescription: "Chinese Red"},
+		11.5	: { colorCode: "a33700", colorDescription: "Quora"},
+		12	: { colorCode: "9f3400", colorDescription: "Sangria"},
+		12.5	: { colorCode: "9b3000", colorDescription: "Dark Orange-Red"},
+		13	: { colorCode: "972d00", colorDescription: "Totem Pole"},
+		14	: { colorCode: "8f2800", colorDescription: "Peru Tan"},
+		15	: { colorCode: "882300", colorDescription: "Red Beech"},
+		16	: { colorCode: "811f00", colorDescription: "Maroon"},
+		17	: { colorCode: "7b1b00", colorDescription: "Pueblo"},
+		18	: { colorCode: "741800", colorDescription: "Cedar Wood"},
+		19	: { colorCode: "6e1500", colorDescription: "Barn Red"},
+		20	: { colorCode: "681200", colorDescription: "Rosewood"},
+		21	: { colorCode: "631000", colorDescription: "Dark Red"},
+		22	: { colorCode: "5e0e00", colorDescription: "Red Oxide"},
+		23	: { colorCode: "590c00", colorDescription: "Rustic Red"},
+		24	: { colorCode: "540b00", colorDescription: "Burnt Maroon"},
+		25	: { colorCode: "500900", colorDescription: "Pheasant Red"},
+		26	: { colorCode: "4c0800", colorDescription: "Brown Pod"},
+		27	: { colorCode: "480700", colorDescription: "Temptress"},
+		28	: { colorCode: "440600", colorDescription: "Dark Sienna"},
+		29	: { colorCode: "410500", colorDescription: "Black Bean"},
+		30	: { colorCode: "3d0500", colorDescription: "Dark Bronze"},
+		31	: { colorCode: "3a0400", colorDescription: "Chocolate"},
+		32	: { colorCode: "370400", colorDescription: "Autumn Maple"},
+		33	: { colorCode: "340300", colorDescription: "Dark Cabernet"},
+		34	: { colorCode: "320300", colorDescription: "Titian Maroon"},
+		35	: { colorCode: "2f0200", colorDescription: "Sepia Black"},
+		36	: { colorCode: "2d0200", colorDescription: "Dark Gold Wing"},
+		37	: { colorCode: "2a0200", colorDescription: "Zinnwaldite Brown"},
+		38	: { colorCode: "280100", colorDescription: "Diesel"},
+		39	: { colorCode: "260100", colorDescription: "Licorice"},
+		40	: { colorCode: "240100", colorDescription: "Black"},
+		50	: { colorCode: "160000", colorDescription: "Smoky Black"},
+		65	: { colorCode: "0d0000", colorDescription: "Coal Black"},
+		80	: { colorCode: "000000", colorDescription: "Moonlight Black"}
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = "<bc-color class=\"bc-component large\"><div v-bind:style=\"{ backgroundColor: beerColorHex }\" class=\"bc-color-colorbox\"></div><div v-if=\"options.hideDescription.value != 'True'\" class=\"bc-color-description\"><h1>Beer color</h1><p>Color description: <b>{{ beerColorDescription }}</b></p><p>EBC: <b>{{ beer.data.target_ebc }}</b></p></div></bc-color>";
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(13)
+	__vue_script__ = __webpack_require__(15)
+	__vue_template__ = __webpack_require__(16)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/mads/Google Drive/sites/brewcontrol/vue_components/bc_developer_bar.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(14);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-36f2c6be&file=bc_developer_bar.vue!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./bc_developer_bar.vue", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/vue-loader/lib/style-rewriter.js?id=_v-36f2c6be&file=bc_developer_bar.vue!./../node_modules/vue-loader/lib/selector.js?type=style&index=0!./bc_developer_bar.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <style>
+	// </style>
+	//
+	// <template lang='jade'>
+	// bc-developer-bar
+	// </template>
+	//
+	// <script>
+	exports.default = {
+		props: ['beer'],
+		name: 'test',
+		data: function data() {}
+	};
+	// </script>
+	//
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = "<bc-developer-bar></bc-developer-bar>";
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(data) {
+		var self = this;
+		this.data = (!data) ? false : data;
+		this.save = function() {
+			return $.ajax({
+				method: 'PUT',
+				url: '/beers/',
+				data: self.data
+			}).done(function(beer) {
+				console.log("saved beer", beer);
+				if (beer) self.data = beer;
+			})
+		}
+		this.delete = function() {
+			return $.ajax({
+				method: 'DELETE',
+				url: '/beers/',
+				data: self.data
+			}).done(function() {
+				self.data = false;
+			})
+		}
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = function(data) {
+		var self = this;
+		self.data = data || false;
+		self.type = data.type || false;
+
+		self.hidden = true;
+
+		self.parseJSON = function(str) {
+			try {
+				var obj = JSON.parse(str);
+				return obj;
+			}
+			catch(error) {
+				console.log("error when parsing component data: ", error);
+				return {};
+			}
+		}
+
+		self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+
+		self.save = function(event, useComponentData) {
+			if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
+			return $.ajax({
+				method: 'PUT',
+				url: '/components/',
+				data: self.data
+			}).done(function(component) {
+				console.log("saved component", component);
+				self.hidden = true;
+				if (component) {
+					self.data = component;
+					self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+				}
+			})
+		}
+		self.saveComponentData = function(event) {
+			return self.save(event, true);
+		}
+		self.delete = function() {
+			return $.ajax({
+				method: 'DELETE',
+				url: '/components/',
+				data: self.data
+			}).done(function(success) {
+				self.data = false;
+			})
+		}
+	}
+
+/***/ }
+/******/ ]);

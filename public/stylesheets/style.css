@@ -61,6 +61,30 @@ a.active {
   .bc-component:last-child {
     padding-bottom: 1em; }
 
+.component {
+  margin-bottom: .5em;
+  padding: .5em;
+  background-color: #FFFFFF; }
+  .component:last-child {
+    margin-bottom: 0; }
+  .component .label {
+    margin-bottom: 0.3em; }
+    .component .label .button {
+      display: inline-block;
+      float: right;
+      color: #C0C0C0;
+      cursor: pointer;
+      font-size: 1em; }
+
+.component-option {
+  display: block;
+  padding: .1em .1em .1em .5em;
+  margin: 0.4em 0; }
+  .component-option input {
+    width: 100%; }
+  .component-option select {
+    margin-left: 1em; }
+
 .bc-column {
   height: 100%;
   width: 50%;
@@ -79,6 +103,7 @@ nav {
     font-size: 20px;
     padding: 5px;
     text-decoration: none;
+    overflow: hidden;
     background-color: #263238;
     color: white; }
     nav a:last-child {
@@ -86,6 +111,13 @@ nav {
 
 .section {
   margin-bottom: 1em; }
+  .section h2 {
+    font-size: 1em; }
+  .section h1 {
+    font-size: 2em; }
+
+.hidden {
+  display: none; }
 
 /* INPUT */
 button {
@@ -115,6 +147,21 @@ table {
   table button.field {
     width: 100%; }
 
+.selected {
+  background-color: #51BF94; }
+  .selected:hover {
+    background-color: #51BF94; }
+
+.selected-child {
+  background-color: #51BF94; }
+  .selected-child:hover {
+    background-color: #51BF94; }
+
+.unatatched {
+  background-color: #F4C2C2; }
+  .unatatched:hover {
+    background-color: #F4C2C2; }
+
 tr {
   border: 1px solid #263238;
   width: 100%; }
@@ -128,10 +175,18 @@ td, th {
   border: 1px solid #263238; }
 
 thead th, thead tr {
-  border: none; }
+  border: none;
+  text-align: left; }
 
 thead tr:hover {
   background-color: #F0F3F7; }
+
+/* Aimation */
+.fade-transition {
+  transition: all .5s ease; }
+
+.fade-enter, .fade-leave {
+  opacity: 0; }
 
 /* VUE */
 [v-cloak] {

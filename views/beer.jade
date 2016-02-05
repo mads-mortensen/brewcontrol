@@ -1,7 +1,7 @@
 extends layout_main
 
 block navlinks
-	a(href='', class='active') Beer #!{ beer_id }
+	a(href="", class="active") Beer #!{ beer_id }
 
 block content
 	#bc-beer(v-cloak)
@@ -10,8 +10,14 @@ block content
 			h2 {{ beer.data.style }}
 		.bc-column.right
 			#bc-components
+				bc-color(
+					v-for="component in components", 
+					:component="component", 
+					:beer="beer"
+				)
+
 block footer
-	bc-developer-bar(:beer='beer')
+	bc-developer-bar(:beer="beer")
 block scripts
 	script var BEER_ID = '!{ beer_id }';
-	script(type='text/javascript', src='/javascripts/view_beer.js')
+	script(type="text/javascript", src="/javascripts/view_beer.js")

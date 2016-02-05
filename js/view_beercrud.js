@@ -1,80 +1,51 @@
-// Models
-var Beer = require('./models/Beer');
-var Component = require('./models/Component');
-
-// Data
-var components_list = require('./constants/components_list.js');
-
 // Vue
 vue = new Vue({
-	el: 'body',
+	el: '#content',
 	ready: function() {
-		this.getAllBeers(this.getAllComponents);
+		var self = this;
+		self.setupBeers()
+			.then(self.setupComponents)
+			.then(() => { self.ready = true; })
 	},
 	data: {
 		beers: [],
 		components: [],
-		components_list: components_list,
 		beer_headers: [],
+		component_headers: [],
 		beer_headers_ignore: ['_id', '__v'],
-		Beer: Beer, // Beer model
-		Component: Component // Component model
+		component_headers_ignore: ['_id', '__v'],
+		ready: false,
+		selectedBeer: "",
+		Beer: require('./models/Beer'), // Beer model
+		Component: require('./models/Component'), // Component model
+		components_list: require('../vue_components/components') // Components
 	},
 	methods: {
-		getAllComponents: function(cb) {
+		// Beers
+		fetchBeers: function() {
 			self = this;
-			$.ajax({
-				dataType: "json",
-				url: '/components/',
-				success: function(data, error) {
-					// TODO: validate
-					self.components.length = 0;
-					if (error == "success") {
-						$(data).each(function(i, el) {
-							self.components.push(new self.Component(el));
-						});
-						if (cb) cb();
-					}
-					else {
-						// TODO
-					}
-				},
-				timeout: 2000
-			}).fail(function(xhr, status) {
-				if(status == "timeout") {
-					console.error("timed out to API endpoint '/components/'");
-				}
-			});
+			return $.ajax({
+				dataType: "JSON",
+				url: '/beers/'
+			})
 		},
-		getAllBeers: function(cb) {
-			self = this;
-			$.ajax({
-				dataType: "json",
-				url: '/beers/',
-				success: function(data, error) {
-					// TODO: validate
-					self.beers.length = 0;
-					if (error == "success") {
-						$(data).each(function(i, el) {
-							self.beers.push(new self.Beer(el));
-						});
-						self.setBeerHeaders();
-						if (cb) cb();
-					}
-					else {
-						// TODO
-					}
-				},
-				timeout: 2000
-			}).fail(function(xhr, status) {
-				if(status == "timeout") {
-					console.error("timed out to API endpoint '/beers/'");
-				}
-			});
+		addBeers: function(beers) {
+			var self = this;
+			self.beers.length = 0;	
+			$(beers).each(function(i, el) {
+				self.beers.push(new self.Beer(el));
+			})
+		},
+		setupBeers: function() {
+			var self = this;
+			return self.fetchBeers().then(function(beers) {
+				self.addBeers(beers);
+				self.setBeerHeaders();
+			})
 		},
 		createNewBeer: function() {
 			var new_beer = new this.Beer({name: 'new beer'});
-			new_beer.save(false, this.getAllBeers);
+			new_beer.save().then(this.setupBeers);
 		},
 		setBeerHeaders: function() {
 			this.beer_headers.length = 0;
@@ -84,20 +55,59 @@ vue = new Vue({
 				}
 			}
 		},
-		addComponentToBeer: function(event) {
-			this.createNewComponent(event.target.beer.value, event.target.component.value)
-		},
-		createNewComponent: function(beer_id, componentName) {
-			var component = new Component({name: componentName, beer_id: beer_id});
-			component.save(false, this.getAllComponents);
-		},
 		saveAllBeers: function() {
 			$(this.beers).each(function(i, beer) {
 				beer.save();	
 			})
 		},
-		confirm: function(message, action, arguments) {
-			if (confirm(message)) action.apply(null, arguments);
+		// Components
+		fetchComponents: function() {
+			self = this;
+			return $.ajax({
+				dataType: "JSON",
+				url: '/components/'
+			})
+		},
+		addComponents: function(components) {
+			var self = this;
+			self.components.length = 0;
+			$(components).each(function(i, el) {
+				self.components.push(new self.Component(el));
+			})
+		},
+		setupComponents: function() {
+			var self = this;
+			return self.fetchComponents().then(function(components) {
+				self.addComponents(components);
+				self.setComponentHeaders();
+			})
+		},
+		setComponentHeaders: function() {
+			this.component_headers.length = 0;
+			if (this.components.length > 0) {
+				for (name in this.components[0].data) {
+					if (this.component_headers_ignore.indexOf(name) == -1) this.component_headers.push(name);
+				}
+			}
+		},
+		addComponentToBeer: function(event) {
+			this.createNewComponent(event.target.beer.value, event.target.component.value)
+		},
+		createNewComponent: function(beer_id, componentName) {
+			var component = new self.Component({name: componentName, beer_id: beer_id});
+			component.save().then(this.setupComponents);
+		},
+		// Utility
+		confirm: function(message, action, then) {
+			if (confirm(message)) action().then(then);
+		},
+		isComponentUnattached: function(beer_id) {
+			for (var beer of this.beers) {
+				if (beer.data._id == beer_id) { 
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 });
