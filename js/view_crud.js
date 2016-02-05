@@ -22,9 +22,6 @@ vue = new Vue({
 	},
 	methods: {
 		// Beers
-		test: function() {
-			console.log("!");
-		},
 		fetchBeers: function() {
 			self = this;
 			return $.ajax({
