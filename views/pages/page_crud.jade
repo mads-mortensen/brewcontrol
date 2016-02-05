@@ -1,4 +1,4 @@
-extends layout_main
+extends ../layout_main
 
 block content
 	.wrapper(
@@ -7,22 +7,11 @@ block content
 		transition="fade"
 	)
 		.section
+			h1 Beers
+			h2 Create new beer
 			button(@click="createNewBeer") new beer
 			button(@click="saveAllBeers") save all beers
 		.section
-			h2 Add component to beer
-			form(v-on:submit.prevent="addComponentToBeer")
-				select(name="component")
-					option(v-for="component in components_list") {{ component.bc.name }}
-				select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
-					option(
-						v-for="beer in beers" 
-						value="{{ beer.data._id }}"
-						selected="{{ selectedBeer != '' && selectedBeer.data._id == beer.data._id }}"
-					) {{ beer.data.name }}
-				button(type="submit") add
-		.section
-			h1 Beers
 			h2(v-if="beers.length == 0") No beers
 			table
 				thead
@@ -73,6 +62,18 @@ block content
 								button(@click="component.delete().then(setupComponents)") delete
 		.section
 			h1 Components
+			h2 Add component to beer
+			form(v-on:submit.prevent="addComponentToBeer")
+				select(name="component")
+					option(v-for="component in components_list") {{ component.bc.name }}
+				select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
+					option(
+						v-for="beer in beers" 
+						value="{{ beer.data._id }}"
+						selected="{{ selectedBeer != '' && selectedBeer.data._id == beer.data._id }}"
+					) {{ beer.data.name }}
+				button(type="submit") add
+		.section
 			h2(v-if="components.length == 0") No components
 			table
 				thead
@@ -95,4 +96,4 @@ block content
 								@click="component.data.beer_id = selectedBeer.data._id , component.save()"
 							) attach to {{ selectedBeer.data.name }}
 block scripts
-	script(type="text/javascript", src="/javascripts/view_beercrud.js")
+	script(type="text/javascript", src="/javascripts/view_crud.js")

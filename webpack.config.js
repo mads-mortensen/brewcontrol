@@ -5,7 +5,7 @@ module.exports = {
 	entry: {
 		view_beer: 		'./js/view_beer.js',
 		view_main: 		'./js/view_main.js',
-		view_beercrud: 	'./js/view_beercrud.js'
+		view_crud: 	'./js/view_crud.js'
 	},
 	output: {
 		path: path.join(__dirname, '/public/javascripts/'),

@@ -61,8 +61,8 @@
 					name: 'Home'
 				},
 				{
-					href: '/beertestcrud/', 
-					name: 'Beer test-CRUD'
+					href: '/crud/', 
+					name: 'CRUD'
 				}
 			]
 		},
