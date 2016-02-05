@@ -61,12 +61,14 @@
 					for (var component of components) {
 						self.components.push(new self.Component(component));
 					}
+					self.ready = true;
 				})
 		},
 		data: {
 			Beer: __webpack_require__(17), // Beer model
 			Component: __webpack_require__(18), // Component model
 			beer: {data: {}}, // empty beer object
+			ready: false,
 			components: []
 		},
 		methods: {
@@ -797,18 +799,22 @@
 
 	module.exports = function(data) {
 		var self = this;
-		this.data = (!data) ? false : data;
-		this.save = function() {
+		self.data = (!data) ? false : data;
+		self.edited = false;
+		self.save = function() {
 			return $.ajax({
 				method: 'PUT',
 				url: '/beers/',
 				data: self.data
 			}).done(function(beer) {
 				console.log("saved beer", beer);
-				if (beer) self.data = beer;
+				if (beer) {
+					self.data = beer;
+					self.edited = false;
+				}
 			})
 		}
-		this.delete = function() {
+		self.delete = function() {
 			return $.ajax({
 				method: 'DELETE',
 				url: '/beers/',
@@ -827,9 +833,8 @@
 		var self = this;
 		self.data = data || false;
 		self.type = data.type || false;
-
 		self.hidden = true;
-
+		self.edited = false;
 		self.parseJSON = function(str) {
 			try {
 				var obj = JSON.parse(str);
@@ -840,9 +845,7 @@
 				return {};
 			}
 		}
-
 		self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
-
 		self.save = function(event, useComponentData) {
 			if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
 			return $.ajax({
@@ -855,6 +858,7 @@
 				if (component) {
 					self.data = component;
 					self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+					self.edited = false;
 				}
 			})
 		}

@@ -15,12 +15,14 @@ new Vue({
 				for (var component of components) {
 					self.components.push(new self.Component(component));
 				}
+				self.ready = true;
 			})
 	},
 	data: {
 		Beer: require('./models/Beer'), // Beer model
 		Component: require('./models/Component'), // Component model
 		beer: {data: {}}, // empty beer object
+		ready: false,
 		components: []
 	},
 	methods: {

@@ -24,9 +24,16 @@ block content
 						v-bind:class="{ selected: selectedBeer == beer }"
 					)
 						td(v-for="header in beer_headers")
-							input.field(type="text", v-model="beer.data[header]")
+							input.field(
+								type="text", 
+								v-model="beer.data[header]" 
+								v-on:change="beer.edited = true"
+							)
 						td
-							button.field(@click="beer.save") save
+							button.field(
+								@click="beer.save" 
+								v-bind:class="{ inactive : !beer.edited }"
+							) save
 						td
 							button.field(@click="confirm('delete?', beer.delete, setupBeers)") delete
 						td
@@ -51,14 +58,19 @@ block content
 											v-if="option.type == 'String'"  
 											v-model="component.componentData[option.id]",
 											type="text"
+											v-on:change="component.edited = true"
 										)
 										select(
 											v-if="option.type == 'Boolean'" 
 											v-model="component.componentData[option.id]"
+											v-on:change="component.edited = true"
 										)
 											option(value="False") False
 											option(value="True") True
-								button(@click="component.saveComponentData") save
+								button(
+									@click="component.saveComponentData" 
+									v-bind:class="{ inactive : !component.edited }"
+								) save
 								button(@click="component.delete().then(setupComponents)") delete
 		.section
 			h1 Components
@@ -85,9 +97,16 @@ block content
 						v-bind:class="{ 'unatatched': isComponentUnattached(component.data.beer_id), 'selected-child': selectedBeer != '' && selectedBeer.data._id == component.data.beer_id }"
 					)
 						td(v-for="header in component_headers")
-							input.field(type="text", v-model="component.data[header]")
+							input.field(
+								type="text", 
+								v-model="component.data[header]" 
+								v-on:change="component.edited = true"
+							)
 						td
-							button.field(@click="component.save") save
+							button.field(
+								@click="component.save"
+								v-bind:class="{ inactive : !component.edited }"
+							) save
 						td
 							button.field(@click="confirm('delete?', component.delete, setupComponents)") delete
 						td

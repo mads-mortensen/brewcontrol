@@ -162,6 +162,10 @@ table {
   .unatatched:hover {
     background-color: #F4C2C2; }
 
+.inactive {
+  opacity: 0.3;
+  cursor: default; }
+
 tr {
   border: 1px solid #263238;
   width: 100%; }

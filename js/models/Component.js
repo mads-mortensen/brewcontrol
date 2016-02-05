@@ -2,9 +2,8 @@ module.exports = function(data) {
 	var self = this;
 	self.data = data || false;
 	self.type = data.type || false;
-
 	self.hidden = true;
-
+	self.edited = false;
 	self.parseJSON = function(str) {
 		try {
 			var obj = JSON.parse(str);
@@ -15,9 +14,7 @@ module.exports = function(data) {
 			return {};
 		}
 	}
-
 	self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
-
 	self.save = function(event, useComponentData) {
 		if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
 		return $.ajax({
@@ -30,6 +27,7 @@ module.exports = function(data) {
 			if (component) {
 				self.data = component;
 				self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+				self.edited = false;
 			}
 		})
 	}
