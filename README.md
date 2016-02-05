@@ -45,7 +45,7 @@ $ gulp
 ```
 > Default task will also start watch task for Webpack (JavaScript and Vue components) and style (Sass)
 
-**3)** *Make sure **MongoDB** is running*
+**3)** *Make sure MongoDB is running*
 
 **4)** *Run Express*
 ```sh
