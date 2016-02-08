@@ -52,33 +52,19 @@
 		el: 'body',
 		ready: function() {
 			var self = this;
-			self.fetchBeer(BEER_ID)
-				.then((data) => {
-					self.beer = new self.Beer(data);
-					return self.fetchComponents(BEER_ID);
-				})
-				.then((components) => {
-					for (var component of components) {
-						self.components.push(new self.Component(component));
-					}
+			self.beerFactory.loadOneBeer(BEER_ID)
+				.then(function() {
 					self.ready = true;
 				})
 		},
 		data: {
-			Beer: __webpack_require__(17), // Beer model
-			Component: __webpack_require__(18), // Component model
-			beer: {data: {}}, // empty beer object
+			beerFactory: __webpack_require__(17), // Beers factory
+			Component: __webpack_require__(19), // Component model
+			beer: {data: {}}, // Empty beer object
 			ready: false,
 			components: []
 		},
 		methods: {
-			fetchBeer: function(id) {
-				return $.ajax({
-					method: 'GET',
-					dataType: 'JSON',
-					url: '/beers/' + id
-				});
-			},
 			fetchComponents: function(id) {
 				var self = this;
 				return $.ajax({
@@ -795,6 +781,77 @@
 
 /***/ },
 /* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Beers = function() {
+		var self = this;
+		self.Beer = __webpack_require__(18);
+		self.beers = [];
+		self.beer_headers = [];
+		self.beer = function() { return self.beers[0] };
+		self.beer_headers_ignore = ['_id', '__v'];
+		// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
+		self.loadAllBeers = function() {
+			self.setupBeers()
+				.then(self.setupComponents)
+				.then(() => { self.ready = true; })
+		}
+		self.setupBeers = function() {
+			return self.fetchBeers().then(function(beers) {
+				self.addBeers(beers);
+				self.setBeerHeaders();
+			})
+		}
+		self.fetchBeers = function() {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/beers/'
+			})
+		}
+		self.addBeers = function(beers) {
+			self.beers.length = 0;	
+			$(beers).each(function(i, el) {
+				self.beers.push(new self.Beer(el));
+			})
+		}
+		self.setBeerHeaders = function() {
+			self.beer_headers.length = 0;
+			if (self.beers.length > 0) {
+				for (name in self.beers[0].data) {
+					if (self.beer_headers_ignore.indexOf(name) == -1) self.beer_headers.push(name);
+				}
+			}
+		}
+		// Fetch one beer with id 'id' -> save beer to self.beers
+		self.loadOneBeer = function(id) {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/beers/' + id,
+				success: function(data) {
+					self.beers[0] = new self.Beer(data);
+					return self.beers[0];
+				}
+			})
+		}
+		// Create a new beer -> Save it
+		self.createNewBeer = function() {
+			var new_beer = new self.Beer({name: 'new beer'});
+			return new_beer.save();
+		}
+		// Save all beers in this.beers
+		self.saveAllBeers = function() {
+			$(self.beers).each(function(i, beer) {
+				beer.save();	
+			})
+		}
+	}
+	module.exports = new Beers();
+
+
+/***/ },
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(data) {
@@ -826,7 +883,7 @@
 	}
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(data) {

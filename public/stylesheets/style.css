@@ -166,6 +166,15 @@ table {
   opacity: 0.3;
   cursor: default; }
 
+.fixed_width_large {
+  width: 20em; }
+
+.fixed_width_small {
+  width: 3em; }
+
+.fixed_width_medium {
+  width: 10em; }
+
 tr {
   border: 1px solid #263238;
   width: 100%; }

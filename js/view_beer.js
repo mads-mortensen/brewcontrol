@@ -6,33 +6,19 @@ new Vue({
 	el: 'body',
 	ready: function() {
 		var self = this;
-		self.fetchBeer(BEER_ID)
-			.then((data) => {
-				self.beer = new self.Beer(data);
-				return self.fetchComponents(BEER_ID);
-			})
-			.then((components) => {
-				for (var component of components) {
-					self.components.push(new self.Component(component));
-				}
+		self.beerFactory.loadOneBeer(BEER_ID)
+			.then(function() {
 				self.ready = true;
 			})
 	},
 	data: {
-		Beer: require('./models/Beer'), // Beer model
+		beerFactory: require('./helpers/BeerFactory'), // Beers factory
 		Component: require('./models/Component'), // Component model
-		beer: {data: {}}, // empty beer object
+		beer: {data: {}}, // Empty beer object
 		ready: false,
 		components: []
 	},
 	methods: {
-		fetchBeer: function(id) {
-			return $.ajax({
-				method: 'GET',
-				dataType: 'JSON',
-				url: '/beers/' + id
-			});
-		},
 		fetchComponents: function(id) {
 			var self = this;
 			return $.ajax({

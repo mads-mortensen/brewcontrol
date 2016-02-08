@@ -3,62 +3,30 @@ vue = new Vue({
 	el: '#content',
 	ready: function() {
 		var self = this;
-		self.setupBeers()
-			.then(self.setupComponents)
-			.then(() => { self.ready = true; })
+		self.beerFactory.setupBeers()
+			.then(function() {
+				self.ready = true;
+			})
+		//self.setupBeers()
+		//	.then(self.setupComponents)
+		//	.then(() => { self.ready = true; })
 	},
 	data: {
-		beers: [],
+		beerFactory: require('./helpers/BeerFactory'), // Beers factory
 		components: [],
-		beer_headers: [],
 		component_headers: [],
-		beer_headers_ignore: ['_id', '__v'],
 		component_headers_ignore: ['_id', '__v'],
 		ready: false,
 		selectedBeer: "",
-		Beer: require('./models/Beer'), // Beer model
 		Component: require('./models/Component'), // Component model
 		components_list: require('../vue_components/components') // Components
 	},
 	methods: {
 		// Beers
-		fetchBeers: function() {
-			self = this;
-			return $.ajax({
-				dataType: "JSON",
-				url: '/beers/'
-			})
-		},
-		addBeers: function(beers) {
-			var self = this;
-			self.beers.length = 0;	
-			$(beers).each(function(i, el) {
-				self.beers.push(new self.Beer(el));
-			})
-		},
-		setupBeers: function() {
-			var self = this;
-			return self.fetchBeers().then(function(beers) {
-				self.addBeers(beers);
-				self.setBeerHeaders();
-			})
-		},
 		createNewBeer: function() {
-			var new_beer = new this.Beer({name: 'new beer'});
-			new_beer.save().then(this.setupBeers);
-		},
-		setBeerHeaders: function() {
-			this.beer_headers.length = 0;
-			if (this.beers.length > 0) {
-				for (name in this.beers[0].data) {
-					if (this.beer_headers_ignore.indexOf(name) == -1) this.beer_headers.push(name);
-				}
-			}
-		},
-		saveAllBeers: function() {
-			$(this.beers).each(function(i, beer) {
-				beer.save();	
-			})
+			self = this;
+			self.beerFactory.createNewBeer()
+				.then(self.beerFactory.setupBeers)
 		},
 		// Components
 		fetchComponents: function() {
@@ -94,15 +62,18 @@ vue = new Vue({
 			this.createNewComponent(event.target.beer.value, event.target.component.value)
 		},
 		createNewComponent: function(beer_id, componentName) {
-			var component = new self.Component({name: componentName, beer_id: beer_id});
+			var component = new self.Component({name: componentName, beer_id: beer_id || ""});
 			component.save().then(this.setupComponents);
+		},
+		addComponent: function(event) {
+			this.createNewComponent("", event.target.component.value);
 		},
 		// Utility
 		confirm: function(message, action, then) {
 			if (confirm(message)) action().then(then);
 		},
 		isComponentUnattached: function(beer_id) {
-			for (var beer of this.beers) {
+			for (var beer of this.beerFactory.beers) {
 				if (beer.data._id == beer_id) { 
 					return false;
 				}

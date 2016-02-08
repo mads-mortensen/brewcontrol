@@ -11,18 +11,18 @@ block content
 	)
 		#bc-beer(v-cloak)
 			.bc-column.left
-				h1 {{ beer.data.name }}
-				h2 {{ beer.data.style }}
+				h1 {{ beerFactory.beer().data.name }}
+				h2 {{ beerFactory.beer().data.style }}
 			.bc-column.right
 				#bc-components
 					bc-color(
 						v-for="component in components", 
 						:component="component", 
-						:beer="beer"
+						:beer="beerFactory.beer()"
 					)
 
 block footer
-	bc-developer-bar(:beer="beer")
+	bc-developer-bar(:beer="beerFactory.beer")
 block scripts
 	script var BEER_ID = '!{ beer_id }';
 	script(type="text/javascript", src="/javascripts/view_beer.js")

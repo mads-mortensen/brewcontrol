@@ -1,0 +1,98 @@
+extends layout_main
+
+block content
+	.wrapper(
+		v-cloak
+		v-if="ready" 
+		transition="fade"
+	)
+		.section
+			button(@click="createNewBeer") new beer
+			button(@click="saveAllBeers") save all beers
+		.section
+			h2 Add component to beer
+			form(v-on:submit.prevent="addComponentToBeer")
+				select(name="component")
+					option(v-for="component in components_list") {{ component.bc.name }}
+				select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
+					option(
+						v-for="beer in beers" 
+						value="{{ beer.data._id }}"
+						selected="{{ selectedBeer != '' && selectedBeer.data._id == beer.data._id }}"
+					) {{ beer.data.name }}
+				button(type="submit") add
+		.section
+			h1 Beers
+			h2(v-if="beers.length == 0") No beers
+			table
+				thead
+					tr
+						th(v-for="header in beer_headers") {{ header }}
+				tbody
+					tr(
+						v-for="beer in beers"
+						@click="selectedBeer = beer"
+						v-bind:class="{ selected: selectedBeer == beer }"
+					)
+						td(v-for="header in beer_headers")
+							input.field(type="text", v-model="beer.data[header]")
+						td
+							button.field(@click="beer.save") save
+						td
+							button.field(@click="confirm('delete?', beer.delete, setupBeers)") delete
+						td
+							a(href="/beer/{{beer.data._id}}") GOTO
+						td(style="width: 20em;")
+							.component(
+								v-for="component in components" 
+								v-if="component.data.beer_id == beer.data._id" 
+								style="display:block;"
+								) 
+								.label {{ components_list[component.type.replace('_','-')].bc.name }}
+									.button(@click="component.hidden = !component.hidden") {{ component.hidden ? 'show' : 'hide' }}
+								.component-options(
+									v-show="!component.hidden"
+									transition="fade"
+								)
+									.component-option(
+										v-for="option in components_list[component.type.replace('_','-')].bc.options"
+									) 
+										label {{ option.name }}
+										input(
+											v-if="option.type == 'String'"  
+											v-model="component.componentData[option.id]",
+											type="text"
+										)
+										select(
+											v-if="option.type == 'Boolean'" 
+											v-model="component.componentData[option.id]"
+										)
+											option(value="False") False
+											option(value="True") True
+								button(@click="component.saveComponentData") save
+								button(@click="component.delete().then(setupComponents)") delete
+		.section
+			h1 Components
+			h2(v-if="components.length == 0") No components
+			table
+				thead
+					tr
+						th(v-for="header in component_headers") {{ header }}
+				tbody
+					tr(
+						v-for="component in components"
+						v-bind:class="{ 'unatatched': isComponentUnattached(component.data.beer_id), 'selected-child': selectedBeer != '' && selectedBeer.data._id == component.data.beer_id }"
+					)
+						td(v-for="header in component_headers")
+							input.field(type="text", v-model="component.data[header]")
+						td
+							button.field(@click="component.save") save
+						td
+							button.field(@click="confirm('delete?', component.delete, setupComponents)") delete
+						td
+							button.field(
+								v-if="selectedBeer != ''"
+								@click="component.data.beer_id = selectedBeer.data._id , component.save()"
+							) attach to {{ selectedBeer.data.name }}
+block scripts
+	script(type="text/javascript", src="/javascripts/view_beercrud.js")

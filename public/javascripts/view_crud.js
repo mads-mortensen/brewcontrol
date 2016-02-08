@@ -49,62 +49,30 @@
 		el: '#content',
 		ready: function() {
 			var self = this;
-			self.setupBeers()
-				.then(self.setupComponents)
-				.then(() => { self.ready = true; })
+			self.beerFactory.setupBeers()
+				.then(function() {
+					self.ready = true;
+				})
+			//self.setupBeers()
+			//	.then(self.setupComponents)
+			//	.then(() => { self.ready = true; })
 		},
 		data: {
-			beers: [],
+			beerFactory: __webpack_require__(17), // Beers factory
 			components: [],
-			beer_headers: [],
 			component_headers: [],
-			beer_headers_ignore: ['_id', '__v'],
 			component_headers_ignore: ['_id', '__v'],
 			ready: false,
 			selectedBeer: "",
-			Beer: __webpack_require__(17), // Beer model
-			Component: __webpack_require__(18), // Component model
+			Component: __webpack_require__(19), // Component model
 			components_list: __webpack_require__(1) // Components
 		},
 		methods: {
 			// Beers
-			fetchBeers: function() {
-				self = this;
-				return $.ajax({
-					dataType: "JSON",
-					url: '/beers/'
-				})
-			},
-			addBeers: function(beers) {
-				var self = this;
-				self.beers.length = 0;	
-				$(beers).each(function(i, el) {
-					self.beers.push(new self.Beer(el));
-				})
-			},
-			setupBeers: function() {
-				var self = this;
-				return self.fetchBeers().then(function(beers) {
-					self.addBeers(beers);
-					self.setBeerHeaders();
-				})
-			},
 			createNewBeer: function() {
-				var new_beer = new this.Beer({name: 'new beer'});
-				new_beer.save().then(this.setupBeers);
-			},
-			setBeerHeaders: function() {
-				this.beer_headers.length = 0;
-				if (this.beers.length > 0) {
-					for (name in this.beers[0].data) {
-						if (this.beer_headers_ignore.indexOf(name) == -1) this.beer_headers.push(name);
-					}
-				}
-			},
-			saveAllBeers: function() {
-				$(this.beers).each(function(i, beer) {
-					beer.save();	
-				})
+				self = this;
+				self.beerFactory.createNewBeer()
+					.then(self.beerFactory.setupBeers)
 			},
 			// Components
 			fetchComponents: function() {
@@ -140,15 +108,18 @@
 				this.createNewComponent(event.target.beer.value, event.target.component.value)
 			},
 			createNewComponent: function(beer_id, componentName) {
-				var component = new self.Component({name: componentName, beer_id: beer_id});
+				var component = new self.Component({name: componentName, beer_id: beer_id || ""});
 				component.save().then(this.setupComponents);
+			},
+			addComponent: function(event) {
+				this.createNewComponent("", event.target.component.value);
 			},
 			// Utility
 			confirm: function(message, action, then) {
 				if (confirm(message)) action().then(then);
 			},
 			isComponentUnattached: function(beer_id) {
-				for (var beer of this.beers) {
+				for (var beer of this.beerFactory.beers) {
 					if (beer.data._id == beer_id) { 
 						return false;
 					}
@@ -862,6 +833,77 @@
 
 /***/ },
 /* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Beers = function() {
+		var self = this;
+		self.Beer = __webpack_require__(18);
+		self.beers = [];
+		self.beer_headers = [];
+		self.beer = function() { return self.beers[0] };
+		self.beer_headers_ignore = ['_id', '__v'];
+		// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
+		self.loadAllBeers = function() {
+			self.setupBeers()
+				.then(self.setupComponents)
+				.then(() => { self.ready = true; })
+		}
+		self.setupBeers = function() {
+			return self.fetchBeers().then(function(beers) {
+				self.addBeers(beers);
+				self.setBeerHeaders();
+			})
+		}
+		self.fetchBeers = function() {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/beers/'
+			})
+		}
+		self.addBeers = function(beers) {
+			self.beers.length = 0;	
+			$(beers).each(function(i, el) {
+				self.beers.push(new self.Beer(el));
+			})
+		}
+		self.setBeerHeaders = function() {
+			self.beer_headers.length = 0;
+			if (self.beers.length > 0) {
+				for (name in self.beers[0].data) {
+					if (self.beer_headers_ignore.indexOf(name) == -1) self.beer_headers.push(name);
+				}
+			}
+		}
+		// Fetch one beer with id 'id' -> save beer to self.beers
+		self.loadOneBeer = function(id) {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/beers/' + id,
+				success: function(data) {
+					self.beers[0] = new self.Beer(data);
+					return self.beers[0];
+				}
+			})
+		}
+		// Create a new beer -> Save it
+		self.createNewBeer = function() {
+			var new_beer = new self.Beer({name: 'new beer'});
+			return new_beer.save();
+		}
+		// Save all beers in this.beers
+		self.saveAllBeers = function() {
+			$(self.beers).each(function(i, beer) {
+				beer.save();	
+			})
+		}
+	}
+	module.exports = new Beers();
+
+
+/***/ },
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(data) {
@@ -893,7 +935,7 @@
 	}
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(data) {

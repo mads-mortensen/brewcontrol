@@ -10,35 +10,35 @@ block content
 			h1 Beers
 			h2 Create new beer
 			button(@click="createNewBeer") new beer
-			button(@click="saveAllBeers") save all beers
+			button(@click="beerFactory.saveAllBeers") save all beers
 		.section
-			h2(v-if="beers.length == 0") No beers
+			h2(v-if="beerFactory.beers.length == 0") No beers
 			table
 				thead
 					tr
 						th(v-for="header in beer_headers") {{ header }}
 				tbody
 					tr(
-						v-for="beer in beers"
+						v-for="beer in beerFactory.beers"
 						@click="selectedBeer = beer"
 						v-bind:class="{ selected: selectedBeer == beer }"
 					)
-						td(v-for="header in beer_headers")
+						td(v-for="header in beerFactory.beer_headers")
 							input.field(
 								type="text", 
 								v-model="beer.data[header]" 
 								v-on:change="beer.edited = true"
 							)
-						td
+						td.fixed_width_small
 							button.field(
 								@click="beer.save" 
 								v-bind:class="{ inactive : !beer.edited }"
 							) save
-						td
-							button.field(@click="confirm('delete?', beer.delete, setupBeers)") delete
+						td.fixed_width_small
+							button.field(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") delete
 						td
 							a(href="/beer/{{beer.data._id}}") GOTO
-						td(style="width: 20em;")
+						td.fixed_width_large
 							.component(
 								v-for="component in components" 
 								v-if="component.data.beer_id == beer.data._id" 
@@ -74,16 +74,21 @@ block content
 								button(@click="component.delete().then(setupComponents)") delete
 		.section
 			h1 Components
-			h2 Add component to beer
+			h2 Create new component, and attach to beer
 			form(v-on:submit.prevent="addComponentToBeer")
 				select(name="component")
 					option(v-for="component in components_list") {{ component.bc.name }}
 				select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
 					option(
-						v-for="beer in beers" 
+						v-for="beer in beerFactory.beers" 
 						value="{{ beer.data._id }}"
 						selected="{{ selectedBeer != '' && selectedBeer.data._id == beer.data._id }}"
 					) {{ beer.data.name }}
+				button(type="submit") add
+			h2 Create new component
+			form(v-on:submit.prevent="addComponent")
+				select(name="component")
+					option(v-for="component in components_list") {{ component.bc.name }}
 				button(type="submit") add
 		.section
 			h2(v-if="components.length == 0") No components
@@ -102,17 +107,18 @@ block content
 								v-model="component.data[header]" 
 								v-on:change="component.edited = true"
 							)
-						td
+						td.fixed_width_medium
+							button.field(
+								v-if="selectedBeer != '' && component.data.beer_id != selectedBeer.data._id"
+								@click="component.data.beer_id = selectedBeer.data._id , component.save()"
+							) attach to selected
+						td.fixed_width_small
 							button.field(
 								@click="component.save"
 								v-bind:class="{ inactive : !component.edited }"
 							) save
-						td
+						td.fixed_width_small
 							button.field(@click="confirm('delete?', component.delete, setupComponents)") delete
-						td
-							button.field(
-								v-if="selectedBeer != ''"
-								@click="component.data.beer_id = selectedBeer.data._id , component.save()"
-							) attach to {{ selectedBeer.data.name }}
+						
 block scripts
 	script(type="text/javascript", src="/javascripts/view_crud.js")
