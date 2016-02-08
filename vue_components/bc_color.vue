@@ -54,7 +54,7 @@ bc-color.bc-component.large
 		props: ['beer', 'component'],
 		data: function() {
 			return {
-				colors: require('../js/data/beer_color_list'), //TODO: this is not good?
+				colors: require('../js/assets/beer_color_list'), //TODO: this is not good?
 				options: bc.optionValues()
 			}
 		},
