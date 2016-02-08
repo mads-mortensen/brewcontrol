@@ -13,8 +13,6 @@ new Vue({
 		]
 	},
 	computed: {
-		activePage: function() {
-			return window.location.href.split('/')[3];
-		}
+		activePage: () => window.location.href.split('/')[3]	
 	}
 })

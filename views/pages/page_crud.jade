@@ -16,7 +16,7 @@ block content
 			table
 				thead
 					tr
-						th(v-for="header in beer_headers") {{ header }}
+						th(v-for="header in beerFactory.beer_headers") {{ header }}
 				tbody
 					tr(
 						v-for="beer in beerFactory.beers"
@@ -40,18 +40,18 @@ block content
 							a(href="/beer/{{beer.data._id}}") GOTO
 						td.fixed_width_large
 							.component(
-								v-for="component in components" 
-								v-if="component.data.beer_id == beer.data._id" 
+								v-for="component in componentFactory.components" 
+								v-if="getComponentBC(component) && component.data.beer_id == beer.data._id" 
 								style="display:block;"
 								) 
-								.label {{ components_list[component.type.replace('_','-')].bc.name }}
+								.label {{ getComponentBC(component).name }}
 									.button(@click="component.hidden = !component.hidden") {{ component.hidden ? 'show' : 'hide' }}
 								.component-options(
 									v-show="!component.hidden"
 									transition="fade"
 								)
 									.component-option(
-										v-for="option in components_list[component.type.replace('_','-')].bc.options"
+										v-for="option in getComponentBC(component).options"
 									) 
 										label {{ option.name }}
 										input(
@@ -71,7 +71,7 @@ block content
 									@click="component.saveComponentData" 
 									v-bind:class="{ inactive : !component.edited }"
 								) save
-								button(@click="component.delete().then(setupComponents)") delete
+								button(@click="component.delete().then(componentFactory.setupComponents)") delete
 		.section
 			h1 Components
 			h2 Create new component, and attach to beer
@@ -91,17 +91,17 @@ block content
 					option(v-for="component in components_list") {{ component.bc.name }}
 				button(type="submit") add
 		.section
-			h2(v-if="components.length == 0") No components
+			h2(v-if="componentFactory.components.length == 0") No components
 			table
 				thead
 					tr
-						th(v-for="header in component_headers") {{ header }}
+						th(v-for="header in componentFactory.component_headers") {{ header }}
 				tbody
 					tr(
-						v-for="component in components"
+						v-for="component in componentFactory.components"
 						v-bind:class="{ 'unatatched': isComponentUnattached(component.data.beer_id), 'selected-child': selectedBeer != '' && selectedBeer.data._id == component.data.beer_id }"
 					)
-						td(v-for="header in component_headers")
+						td(v-for="header in componentFactory.component_headers")
 							input.field(
 								type="text", 
 								v-model="component.data[header]" 
@@ -118,7 +118,7 @@ block content
 								v-bind:class="{ inactive : !component.edited }"
 							) save
 						td.fixed_width_small
-							button.field(@click="confirm('delete?', component.delete, setupComponents)") delete
+							button.field(@click="confirm('delete?', component.delete, componentFactory.setupComponents)") delete
 						
 block scripts
 	script(type="text/javascript", src="/javascripts/view_crud.js")

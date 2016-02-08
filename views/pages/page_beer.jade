@@ -16,11 +16,10 @@ block content
 			.bc-column.right
 				#bc-components
 					bc-color(
-						v-for="component in components", 
+						v-for="component in componentFactory.componentsByType('bc_color')", 
 						:component="component", 
 						:beer="beerFactory.beer()"
 					)
-
 block footer
 	bc-developer-bar(:beer="beerFactory.beer")
 block scripts

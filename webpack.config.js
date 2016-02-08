@@ -3,8 +3,8 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: {
-		view_beer: 		'./js/view_beer.js',
-		view_main: 		'./js/view_main.js',
+		view_beer: './js/view_beer.js',
+		view_main: 	'./js/view_main.js',
 		view_crud: 	'./js/view_crud.js'
 	},
 	output: {
@@ -16,6 +16,11 @@ module.exports = {
 			{
 				test: /\.vue$/,
 				loader: 'vue'
+			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: "babel-loader"
 			}
 		]
 	},

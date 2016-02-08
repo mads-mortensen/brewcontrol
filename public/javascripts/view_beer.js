@@ -44,51 +44,51 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var components = __webpack_require__(1);
-	components['bc-developer-bar'] =  __webpack_require__(12);
+	components['bc-developer-bar'] = __webpack_require__(12);
 
 	// vue
 	new Vue({
 		el: 'body',
-		ready: function() {
+		ready: function ready() {
 			var self = this;
-			self.beerFactory.loadOneBeer(BEER_ID)
-				.then(function() {
-					self.ready = true;
-				})
+			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
+			self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
+			self.beerFactory.loadOneBeer(BEER_ID).then(self.componentFactory.getAllBeerComponents(BEER_ID)).then(function () {
+				return self.ready = true;
+			});
 		},
 		data: {
-			beerFactory: __webpack_require__(17), // Beers factory
-			Component: __webpack_require__(19), // Component model
-			beer: {data: {}}, // Empty beer object
-			ready: false,
-			components: []
+			BeerFactory: __webpack_require__(17),
+			ComponentFactory: __webpack_require__(19),
+			beerFactory: false, // Beer factory
+			componentFactory: false, // Component factory
+			ready: false
 		},
 		methods: {
-			fetchComponents: function(id) {
-				var self = this;
-				return $.ajax({
-					method: 'GET',
-					dataType: 'JSON',
-					url: '/components/beer/' + id
-				})
+			test: function test() {
+				console.log(this.componentFactory.components);
 			}
 		},
 		components: components
-	})
+	});
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	module.exports = {};
 
 	var components_context = __webpack_require__(2);
-	components_context.keys().forEach(function(file) {
+	components_context.keys().forEach(function (file) {
 		var component = components_context(file);
 		if (component.bc) {
 			// Set options if provided by component data from db
-			component.ready = function() {
+			component.ready = function () {
 				for (var option in this.options) {
 					if (this.component.componentData[option]) {
 						this.options[option].value = this.component.componentData[option];
@@ -97,7 +97,7 @@
 			};
 			module.exports[component.bc.directive] = component;
 		}
-	})
+	});
 
 /***/ },
 /* 2 */
@@ -594,90 +594,93 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	module.exports = function() {
-		this.optionValues = function() {
+	'use strict';
+
+	module.exports = function () {
+		this.optionValues = function () {
 			var obj = {};
 			for (var option in this.options) {
 				obj[option] = {};
 				obj[option].value = '';
 			}
 			return obj;
-		}
-		this.options = {},
-		this.Option = function(obj) {
+		};
+		this.options = {}, this.Option = function (obj) {
 			obj = obj || {};
 			return {
 				name: obj.name || '',
 				id: obj.id || '',
 				type: obj.type || 'String',
 				value: obj.value || ''
-			}
-		}
-	}
+			};
+		};
+	};
 
 /***/ },
 /* 10 */
 /***/ function(module, exports) {
 
+	"use strict";
+
 	module.exports = {
-		0	: { colorCode: "ffffff", colorDescription: "White"},
-		0.5	: { colorCode: "fbf0cb", colorDescription: "Champagne"},
-		1	: { colorCode: "f7e1a1", colorDescription: "Candleglow"},
-		1.5	: { colorCode: "f4d380", colorDescription: "Broadway Lights"},
-		2	: { colorCode: "f0c566", colorDescription: "Cream Can"},
-		2.5	: { colorCode: "edb950", colorDescription: "Casablanca"},
-		3	: { colorCode: "e9ad3f", colorDescription: "Tulip Tree"},
-		3.5	: { colorCode: "e5a231", colorDescription: "Fire Bush"},
-		4	: { colorCode: "e19726", colorDescription: "Buttercup"},
-		4.5	: { colorCode: "dd8d1d", colorDescription: "Zest"},
-		5	: { colorCode: "d98416", colorDescription: "Golden Bell"},
-		5.5	: { colorCode: "d57b11", colorDescription: "Meteor"},
-		6	: { colorCode: "d1730c", colorDescription: "Dark Goldenrod"},
-		6.5	: { colorCode: "cd6c08", colorDescription: "Indochine"},
-		7	: { colorCode: "c86505", colorDescription: "Alloy Orange"},
-		7.5	: { colorCode: "c45e03", colorDescription: "Tawny"},
-		8	: { colorCode: "c05801", colorDescription: "Rose of Sharon"},
-		8.5	: { colorCode: "bc5200", colorDescription: "Ruddy Brown"},
-		9	: { colorCode: "b74d00", colorDescription: "Mahogany"},
-		9.5	: { colorCode: "b34800", colorDescription: "Fire"},
-		10	: { colorCode: "af4300", colorDescription: "Orange"},
-		10.5	: { colorCode: "ab3f00", colorDescription: "Dark Orange"},
-		11	: { colorCode: "a73b00", colorDescription: "Chinese Red"},
-		11.5	: { colorCode: "a33700", colorDescription: "Quora"},
-		12	: { colorCode: "9f3400", colorDescription: "Sangria"},
-		12.5	: { colorCode: "9b3000", colorDescription: "Dark Orange-Red"},
-		13	: { colorCode: "972d00", colorDescription: "Totem Pole"},
-		14	: { colorCode: "8f2800", colorDescription: "Peru Tan"},
-		15	: { colorCode: "882300", colorDescription: "Red Beech"},
-		16	: { colorCode: "811f00", colorDescription: "Maroon"},
-		17	: { colorCode: "7b1b00", colorDescription: "Pueblo"},
-		18	: { colorCode: "741800", colorDescription: "Cedar Wood"},
-		19	: { colorCode: "6e1500", colorDescription: "Barn Red"},
-		20	: { colorCode: "681200", colorDescription: "Rosewood"},
-		21	: { colorCode: "631000", colorDescription: "Dark Red"},
-		22	: { colorCode: "5e0e00", colorDescription: "Red Oxide"},
-		23	: { colorCode: "590c00", colorDescription: "Rustic Red"},
-		24	: { colorCode: "540b00", colorDescription: "Burnt Maroon"},
-		25	: { colorCode: "500900", colorDescription: "Pheasant Red"},
-		26	: { colorCode: "4c0800", colorDescription: "Brown Pod"},
-		27	: { colorCode: "480700", colorDescription: "Temptress"},
-		28	: { colorCode: "440600", colorDescription: "Dark Sienna"},
-		29	: { colorCode: "410500", colorDescription: "Black Bean"},
-		30	: { colorCode: "3d0500", colorDescription: "Dark Bronze"},
-		31	: { colorCode: "3a0400", colorDescription: "Chocolate"},
-		32	: { colorCode: "370400", colorDescription: "Autumn Maple"},
-		33	: { colorCode: "340300", colorDescription: "Dark Cabernet"},
-		34	: { colorCode: "320300", colorDescription: "Titian Maroon"},
-		35	: { colorCode: "2f0200", colorDescription: "Sepia Black"},
-		36	: { colorCode: "2d0200", colorDescription: "Dark Gold Wing"},
-		37	: { colorCode: "2a0200", colorDescription: "Zinnwaldite Brown"},
-		38	: { colorCode: "280100", colorDescription: "Diesel"},
-		39	: { colorCode: "260100", colorDescription: "Licorice"},
-		40	: { colorCode: "240100", colorDescription: "Black"},
-		50	: { colorCode: "160000", colorDescription: "Smoky Black"},
-		65	: { colorCode: "0d0000", colorDescription: "Coal Black"},
-		80	: { colorCode: "000000", colorDescription: "Moonlight Black"}
-	}
+		0: { colorCode: "ffffff", colorDescription: "White" },
+		0.5: { colorCode: "fbf0cb", colorDescription: "Champagne" },
+		1: { colorCode: "f7e1a1", colorDescription: "Candleglow" },
+		1.5: { colorCode: "f4d380", colorDescription: "Broadway Lights" },
+		2: { colorCode: "f0c566", colorDescription: "Cream Can" },
+		2.5: { colorCode: "edb950", colorDescription: "Casablanca" },
+		3: { colorCode: "e9ad3f", colorDescription: "Tulip Tree" },
+		3.5: { colorCode: "e5a231", colorDescription: "Fire Bush" },
+		4: { colorCode: "e19726", colorDescription: "Buttercup" },
+		4.5: { colorCode: "dd8d1d", colorDescription: "Zest" },
+		5: { colorCode: "d98416", colorDescription: "Golden Bell" },
+		5.5: { colorCode: "d57b11", colorDescription: "Meteor" },
+		6: { colorCode: "d1730c", colorDescription: "Dark Goldenrod" },
+		6.5: { colorCode: "cd6c08", colorDescription: "Indochine" },
+		7: { colorCode: "c86505", colorDescription: "Alloy Orange" },
+		7.5: { colorCode: "c45e03", colorDescription: "Tawny" },
+		8: { colorCode: "c05801", colorDescription: "Rose of Sharon" },
+		8.5: { colorCode: "bc5200", colorDescription: "Ruddy Brown" },
+		9: { colorCode: "b74d00", colorDescription: "Mahogany" },
+		9.5: { colorCode: "b34800", colorDescription: "Fire" },
+		10: { colorCode: "af4300", colorDescription: "Orange" },
+		10.5: { colorCode: "ab3f00", colorDescription: "Dark Orange" },
+		11: { colorCode: "a73b00", colorDescription: "Chinese Red" },
+		11.5: { colorCode: "a33700", colorDescription: "Quora" },
+		12: { colorCode: "9f3400", colorDescription: "Sangria" },
+		12.5: { colorCode: "9b3000", colorDescription: "Dark Orange-Red" },
+		13: { colorCode: "972d00", colorDescription: "Totem Pole" },
+		14: { colorCode: "8f2800", colorDescription: "Peru Tan" },
+		15: { colorCode: "882300", colorDescription: "Red Beech" },
+		16: { colorCode: "811f00", colorDescription: "Maroon" },
+		17: { colorCode: "7b1b00", colorDescription: "Pueblo" },
+		18: { colorCode: "741800", colorDescription: "Cedar Wood" },
+		19: { colorCode: "6e1500", colorDescription: "Barn Red" },
+		20: { colorCode: "681200", colorDescription: "Rosewood" },
+		21: { colorCode: "631000", colorDescription: "Dark Red" },
+		22: { colorCode: "5e0e00", colorDescription: "Red Oxide" },
+		23: { colorCode: "590c00", colorDescription: "Rustic Red" },
+		24: { colorCode: "540b00", colorDescription: "Burnt Maroon" },
+		25: { colorCode: "500900", colorDescription: "Pheasant Red" },
+		26: { colorCode: "4c0800", colorDescription: "Brown Pod" },
+		27: { colorCode: "480700", colorDescription: "Temptress" },
+		28: { colorCode: "440600", colorDescription: "Dark Sienna" },
+		29: { colorCode: "410500", colorDescription: "Black Bean" },
+		30: { colorCode: "3d0500", colorDescription: "Dark Bronze" },
+		31: { colorCode: "3a0400", colorDescription: "Chocolate" },
+		32: { colorCode: "370400", colorDescription: "Autumn Maple" },
+		33: { colorCode: "340300", colorDescription: "Dark Cabernet" },
+		34: { colorCode: "320300", colorDescription: "Titian Maroon" },
+		35: { colorCode: "2f0200", colorDescription: "Sepia Black" },
+		36: { colorCode: "2d0200", colorDescription: "Dark Gold Wing" },
+		37: { colorCode: "2a0200", colorDescription: "Zinnwaldite Brown" },
+		38: { colorCode: "280100", colorDescription: "Diesel" },
+		39: { colorCode: "260100", colorDescription: "Licorice" },
+		40: { colorCode: "240100", colorDescription: "Black" },
+		50: { colorCode: "160000", colorDescription: "Smoky Black" },
+		65: { colorCode: "0d0000", colorDescription: "Coal Black" },
+		80: { colorCode: "000000", colorDescription: "Moonlight Black" }
+	};
 
 /***/ },
 /* 11 */
@@ -783,155 +786,223 @@
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Beers = function() {
+	'use strict';
+
+	module.exports = function () {
 		var self = this;
 		self.Beer = __webpack_require__(18);
 		self.beers = [];
 		self.beer_headers = [];
-		self.beer = function() { return self.beers[0] };
 		self.beer_headers_ignore = ['_id', '__v'];
+		self.beer = function () {
+			return self.beers[0];
+		};
 		// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
-		self.loadAllBeers = function() {
-			self.setupBeers()
-				.then(self.setupComponents)
-				.then(() => { self.ready = true; })
-		}
-		self.setupBeers = function() {
-			return self.fetchBeers().then(function(beers) {
+		self.setupBeers = function () {
+			return self.fetchBeers().then(function (beers) {
 				self.addBeers(beers);
 				self.setBeerHeaders();
-			})
-		}
-		self.fetchBeers = function() {
+			});
+		};
+		self.fetchBeers = function () {
 			return $.ajax({
 				method: 'GET',
 				dataType: 'JSON',
 				url: '/beers/'
-			})
-		}
-		self.addBeers = function(beers) {
-			self.beers.length = 0;	
-			$(beers).each(function(i, el) {
-				self.beers.push(new self.Beer(el));
-			})
-		}
-		self.setBeerHeaders = function() {
+			});
+		};
+		self.addBeers = function (beers) {
+			self.beers.length = 0;
+			$(beers).each(function (i, el) {
+				return self.beers.push(new self.Beer(el));
+			});
+		};
+		self.setBeerHeaders = function () {
 			self.beer_headers.length = 0;
 			if (self.beers.length > 0) {
-				for (name in self.beers[0].data) {
-					if (self.beer_headers_ignore.indexOf(name) == -1) self.beer_headers.push(name);
+				for (var prop in self.beers[0].data) {
+					if (self.beer_headers_ignore.indexOf(prop) == -1) self.beer_headers.push(prop);
 				}
 			}
-		}
+		};
 		// Fetch one beer with id 'id' -> save beer to self.beers
-		self.loadOneBeer = function(id) {
+		self.loadOneBeer = function (id) {
 			return $.ajax({
 				method: 'GET',
 				dataType: 'JSON',
 				url: '/beers/' + id,
-				success: function(data) {
-					self.beers[0] = new self.Beer(data);
-					return self.beers[0];
+				success: function success(data) {
+					return self.beers[0] = new self.Beer(data);
 				}
-			})
-		}
+			});
+		};
 		// Create a new beer -> Save it
-		self.createNewBeer = function() {
-			var new_beer = new self.Beer({name: 'new beer'});
-			return new_beer.save();
-		}
+		self.createNewBeer = function () {
+			return new self.Beer({ name: 'new beer' }).save();
+		};
 		// Save all beers in this.beers
-		self.saveAllBeers = function() {
-			$(self.beers).each(function(i, beer) {
-				beer.save();	
-			})
-		}
-	}
-	module.exports = new Beers();
-
+		self.saveAllBeers = function () {
+			$(self.beers).each(function (i, beer) {
+				return beer.save();
+			});
+		};
+	};
 
 /***/ },
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = function(data) {
+	'use strict';
+
+	module.exports = function (data) {
 		var self = this;
-		self.data = (!data) ? false : data;
+		self.data = !data ? false : data;
 		self.edited = false;
-		self.save = function() {
+		self.save = function () {
 			return $.ajax({
 				method: 'PUT',
 				url: '/beers/',
 				data: self.data
-			}).done(function(beer) {
+			}).done(function (beer) {
 				console.log("saved beer", beer);
 				if (beer) {
 					self.data = beer;
 					self.edited = false;
 				}
-			})
-		}
-		self.delete = function() {
+			});
+		};
+		self.delete = function () {
 			return $.ajax({
 				method: 'DELETE',
 				url: '/beers/',
 				data: self.data
-			}).done(function() {
+			}).done(function () {
 				self.data = false;
-			})
-		}
-	}
+			});
+		};
+	};
 
 /***/ },
 /* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function () {
+		var _this = this;
+
+		var self = this;
+		self.Component = __webpack_require__(20);
+		self.components = [];
+		self.component_headers = [];
+		self.component_headers_ignore = ['_id', '__v'];
+		// Fetch all components -> instatiate component objects -> save in this.components ->  save headers in this.component_headers
+		self.setupComponents = function () {
+			return self.fetchComponents().then(function (components) {
+				self.addComponents(components);
+				self.setComponentHeaders();
+			});
+		};
+		self.fetchComponents = function () {
+			return $.ajax({
+				method: 'GET',
+				dataType: "JSON",
+				url: '/components/'
+			});
+		};
+		self.addComponents = function (components) {
+			self.components.length = 0;
+			$(components).each(function (i, el) {
+				return self.components.push(new self.Component(el));
+			});
+		};
+		self.setComponentHeaders = function () {
+			_this.component_headers.length = 0;
+			if (_this.components.length > 0) {
+				for (var prop in _this.components[0].data) {
+					if (_this.component_headers_ignore.indexOf(prop) == -1) _this.component_headers.push(prop);
+				}
+			}
+		};
+		self.createNewComponent = function (beer_id, componentName) {
+			return new self.Component({ name: componentName, beer_id: beer_id || "" }).save();
+		};
+		// Save all components in this.components
+		self.saveAllComponents = function () {
+			$(self.components).each(function (i, component) {
+				return component.save();
+			});
+		};
+		self.getAllBeerComponents = function (id) {
+			return $.ajax({
+				method: 'GET',
+				dataType: 'JSON',
+				url: '/components/beer/' + id,
+				success: function success(components) {
+					return $(components).each(function (i, component) {
+						return self.components.push(new self.Component(component));
+					});
+				}
+			});
+		};
+		self.componentsByType = function (type) {
+			return self.components.length > 0 ? self.components.filter(function (component) {
+				return component.type == type;
+			}) : false;
+		};
+	};
+
+/***/ },
+/* 20 */
 /***/ function(module, exports) {
 
-	module.exports = function(data) {
+	"use strict";
+
+	module.exports = function (data) {
 		var self = this;
 		self.data = data || false;
 		self.type = data.type || false;
 		self.hidden = true;
 		self.edited = false;
-		self.parseJSON = function(str) {
+		self.parseJSON = function (str) {
 			try {
 				var obj = JSON.parse(str);
 				return obj;
-			}
-			catch(error) {
+			} catch (error) {
 				console.log("error when parsing component data: ", error);
 				return {};
 			}
-		}
-		self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
-		self.save = function(event, useComponentData) {
-			if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
+		};
+		self.componentData = !self.data.data ? false : self.parseJSON(self.data.data);
+		self.save = function (event, useComponentData) {
+			if (useComponentData) self.data.data = self.componentData ? JSON.stringify(self.componentData) : "";
 			return $.ajax({
 				method: 'PUT',
 				url: '/components/',
 				data: self.data
-			}).done(function(component) {
+			}).done(function (component) {
 				console.log("saved component", component);
 				self.hidden = true;
 				if (component) {
 					self.data = component;
-					self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
+					self.componentData = !self.data.data ? false : self.parseJSON(self.data.data);
 					self.edited = false;
 				}
-			})
-		}
-		self.saveComponentData = function(event) {
+			});
+		};
+		self.saveComponentData = function (event) {
 			return self.save(event, true);
-		}
-		self.delete = function() {
+		};
+		self.delete = function () {
 			return $.ajax({
 				method: 'DELETE',
 				url: '/components/',
 				data: self.data
-			}).done(function(success) {
+			}).done(function (success) {
 				self.data = false;
-			})
-		}
-	}
+			});
+		};
+	};
 
 /***/ }
 /******/ ]);

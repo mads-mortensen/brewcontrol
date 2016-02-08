@@ -6,27 +6,21 @@ new Vue({
 	el: 'body',
 	ready: function() {
 		var self = this;
+		self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
+		self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
 		self.beerFactory.loadOneBeer(BEER_ID)
-			.then(function() {
-				self.ready = true;
-			})
+			.then(self.componentFactory.getAllBeerComponents(BEER_ID))
+			.then(() => self.ready = true)
 	},
 	data: {
-		beerFactory: require('./helpers/BeerFactory'), // Beers factory
-		Component: require('./models/Component'), // Component model
-		beer: {data: {}}, // Empty beer object
-		ready: false,
-		components: []
+		BeerFactory: require('./helpers/BeerFactory'),
+		ComponentFactory: require('./helpers/ComponentFactory'),
+		beerFactory: false, // Beer factory
+		componentFactory: false, // Component factory
+		ready: false
 	},
 	methods: {
-		fetchComponents: function(id) {
-			var self = this;
-			return $.ajax({
-				method: 'GET',
-				dataType: 'JSON',
-				url: '/components/beer/' + id
-			})
-		}
+		test: function() { console.log(this.componentFactory.components); }
 	},
 	components: components
 })

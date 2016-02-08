@@ -45,33 +45,34 @@
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(20);
+	'use strict';
+
+	__webpack_require__(21);
 
 /***/ },
 
-/***/ 20:
+/***/ 21:
 /***/ function(module, exports) {
+
+	'use strict';
 
 	new Vue({
 		el: '#main_nav',
 		data: {
-			navigation: [
-				{
-					href: '/', 
-					name: 'Home'
-				},
-				{
-					href: '/crud/', 
-					name: 'CRUD'
-				}
-			]
+			navigation: [{
+				href: '/',
+				name: 'Home'
+			}, {
+				href: '/crud/',
+				name: 'CRUD'
+			}]
 		},
 		computed: {
-			activePage: function() {
+			activePage: function activePage() {
 				return window.location.href.split('/')[3];
 			}
 		}
-	})
+	});
 
 /***/ }
 
