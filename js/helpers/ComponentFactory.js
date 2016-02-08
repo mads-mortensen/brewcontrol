@@ -3,7 +3,7 @@ module.exports = function() {
 	self.Component = require('../models/Component');
 	self.components = [];
 	self.component_headers = [];
-	self.component_headers_ignore = ['_id', '__v'];
+	self.component_headers_ignore = ['_id', '__v', 'type'];
 	// Fetch all components -> instatiate component objects -> save in this.components ->  save headers in this.component_headers
 	self.setupComponents = () => 
 		self.fetchComponents()

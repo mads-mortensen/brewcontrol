@@ -43,7 +43,7 @@ block content
 								v-for="component in componentFactory.components" 
 								v-if="getComponentBC(component) && component.data.beer_id == beer.data._id" 
 								style="display:block;"
-								) 
+								)
 								.label {{ getComponentBC(component).name }}
 									.button(@click="component.hidden = !component.hidden") {{ component.hidden ? 'show' : 'hide' }}
 								.component-options(
@@ -96,6 +96,7 @@ block content
 				thead
 					tr
 						th(v-for="header in componentFactory.component_headers") {{ header }}
+						th type
 				tbody
 					tr(
 						v-for="component in componentFactory.components"
@@ -107,6 +108,12 @@ block content
 								v-model="component.data[header]" 
 								v-on:change="component.edited = true"
 							)
+						td
+							select(
+								v-model="component.data['type']" 
+								v-on:change="component.edited = true"
+							)
+								option(v-for="component in components_list" value="component.bc.color") {{ component.bc.name }}
 						td.fixed_width_medium
 							button.field(
 								v-if="selectedBeer != '' && component.data.beer_id != selectedBeer.data._id"

@@ -895,7 +895,7 @@
 		self.Component = __webpack_require__(20);
 		self.components = [];
 		self.component_headers = [];
-		self.component_headers_ignore = ['_id', '__v'];
+		self.component_headers_ignore = ['_id', '__v', 'type'];
 		// Fetch all components -> instatiate component objects -> save in this.components ->  save headers in this.component_headers
 		self.setupComponents = function () {
 			return self.fetchComponents().then(function (components) {
