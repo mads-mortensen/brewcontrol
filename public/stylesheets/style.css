@@ -109,15 +109,27 @@ nav {
     nav a:last-child {
       margin-rigt: 0; }
 
+.wrapper {
+  overflow: hidden; }
+
 .section {
-  margin-bottom: 1em; }
+  margin: 0 1em 0.5em 1em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #BEC2C3; }
   .section h2 {
     font-size: 1em; }
   .section h1 {
-    font-size: 2em; }
+    font-size: 2em;
+    border-bottom: 1px solid #BEC2C3; }
 
 .hidden {
   display: none; }
+
+.space_h_small {
+  margin: 0;
+  padding: 0;
+  display: block;
+  height: 0.3em; }
 
 /* INPUT */
 button {

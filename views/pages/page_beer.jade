@@ -10,10 +10,10 @@ block content
 		transition="fade"
 	)
 		#bc-beer(v-cloak)
-			.bc-column.left
+			.bc-column
 				h1 {{ beerFactory.beer().data.name }}
 				h2 {{ beerFactory.beer().data.style }}
-			.bc-column.right
+			.bc-column
 				#bc-components
 					bc-color(
 						v-for="component in componentFactory.componentsByType('bc_color')", 
