@@ -40,9 +40,11 @@ module.exports = function() {
 			method: 'GET',
 			dataType: 'JSON',
 			url: '/components/beer/' + id,
-			success: components => $(components).each((i, component) => self.components.push(new self.Component(component)))
+			success: components => {
+				$(components).each((i, component) => self.components.push(new self.Component(component)));
+			}
 		})
 	self.componentsByType = function(type) {
-		return (self.components.length > 0) ? self.components.filter(function(component) { return component.type == type }) : false;
+		return (self.components.length > 0) ? self.components.filter(function(component) { return component.data.type == type }) : false;
 	}
 }

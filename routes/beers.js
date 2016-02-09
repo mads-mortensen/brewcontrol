@@ -20,7 +20,7 @@ router.get('/:id', function(req, res, next) {
 // DELETE
 router.delete('/', function(req, res, next) {
 	if (req._body) {
-		Beer.findOne(req.body, function (err, beer) {			
+		Beer.findOne({ _id : req.body._id }, function (err, beer) {			
 			beer.remove(function(err) {
 				if (err) {
 					console.log(err);

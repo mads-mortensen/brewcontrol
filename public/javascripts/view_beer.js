@@ -56,7 +56,9 @@
 			var self = this;
 			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
 			self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
-			self.beerFactory.loadOneBeer(BEER_ID).then(self.componentFactory.getAllBeerComponents(BEER_ID)).then(function () {
+			self.beerFactory.loadOneBeer(BEER_ID).then(function () {
+				return self.componentFactory.getAllBeerComponents(BEER_ID);
+			}).then(function () {
 				return self.ready = true;
 			});
 		},
@@ -939,7 +941,7 @@
 				dataType: 'JSON',
 				url: '/components/beer/' + id,
 				success: function success(components) {
-					return $(components).each(function (i, component) {
+					$(components).each(function (i, component) {
 						return self.components.push(new self.Component(component));
 					});
 				}
@@ -947,7 +949,7 @@
 		};
 		self.componentsByType = function (type) {
 			return self.components.length > 0 ? self.components.filter(function (component) {
-				return component.type == type;
+				return component.data.type == type;
 			}) : false;
 		};
 	};
@@ -961,9 +963,9 @@
 	module.exports = function (data) {
 		var self = this;
 		self.data = data || false;
-		self.type = data.type || false;
 		self.hidden = true;
 		self.edited = false;
+		self.bc = false;
 		self.parseJSON = function (str) {
 			try {
 				var obj = JSON.parse(str);
@@ -976,6 +978,7 @@
 		self.componentData = !self.data.data ? false : self.parseJSON(self.data.data);
 		self.save = function (event, useComponentData) {
 			if (useComponentData) self.data.data = self.componentData ? JSON.stringify(self.componentData) : "";
+			console.log("self:   ", self);
 			return $.ajax({
 				method: 'PUT',
 				url: '/components/',

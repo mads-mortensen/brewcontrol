@@ -41,17 +41,16 @@ block content
 						td.fixed_width_large
 							.component(
 								v-for="component in componentFactory.components" 
-								v-if="getComponentBC(component) && component.data.beer_id == beer.data._id" 
-								style="display:block;"
+								v-if="bc_options[component.data.type] && component.data.beer_id == beer.data._id" 
 								)
-								.label {{ getComponentBC(component).name }}
+								.label {{ bc_names[component.data.type] }}
 									.button(@click="component.hidden = !component.hidden") {{ component.hidden ? 'show' : 'hide' }}
 								.component-options(
 									v-show="!component.hidden"
 									transition="fade"
 								)
 									.component-option(
-										v-for="option in getComponentBC(component).options"
+										v-for="option in bc_options[component.data.type]"
 									) 
 										label {{ option.name }}
 										input(
@@ -77,7 +76,7 @@ block content
 			h2 Create new component, and attach to beer
 			form(v-on:submit.prevent="addComponentToBeer")
 				select(name="component")
-					option(v-for="component in components_list") {{ component.bc.name }}
+					option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
 				select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
 					option(
 						v-for="beer in beerFactory.beers" 
@@ -88,7 +87,7 @@ block content
 			h2 Create new component
 			form(v-on:submit.prevent="addComponent")
 				select(name="component")
-					option(v-for="component in components_list") {{ component.bc.name }}
+					option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
 				button(type="submit") add
 		.section
 			h2(v-if="componentFactory.components.length == 0") No components
@@ -113,7 +112,8 @@ block content
 								v-model="component.data['type']" 
 								v-on:change="component.edited = true"
 							)
-								option(v-for="component in components_list" value="component.bc.color") {{ component.bc.name }}
+								option(v-for="bc_component in components_list" value="{{bc_component.bc.id }}") {{ bc_component.bc.name }}
+								option(value="whaat") whaatsdsd
 						td.fixed_width_medium
 							button.field(
 								v-if="selectedBeer != '' && component.data.beer_id != selectedBeer.data._id"
@@ -121,11 +121,11 @@ block content
 							) attach to selected
 						td.fixed_width_small
 							button.field(
-								@click="component.save"
+								@click="component.save()"
 								v-bind:class="{ inactive : !component.edited }"
 							) save
 						td.fixed_width_small
-							button.field(@click="confirm('delete?', component.delete, componentFactory.setupComponents)") delete
+							button.field(@click="confirm('delete?', component.delete)") delete
 						
 block scripts
 	script(type="text/javascript", src="/javascripts/view_crud.js")

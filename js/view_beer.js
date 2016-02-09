@@ -9,7 +9,7 @@ new Vue({
 		self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
 		self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
 		self.beerFactory.loadOneBeer(BEER_ID)
-			.then(self.componentFactory.getAllBeerComponents(BEER_ID))
+			.then(() => self.componentFactory.getAllBeerComponents(BEER_ID))
 			.then(() => self.ready = true)
 	},
 	data: {

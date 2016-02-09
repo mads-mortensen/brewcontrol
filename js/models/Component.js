@@ -1,9 +1,9 @@
 module.exports = function(data) {
 	var self = this;
 	self.data = data || false;
-	self.type = data.type || false;
 	self.hidden = true;
 	self.edited = false;
+	self.bc = false;
 	self.parseJSON = function(str) {
 		try {
 			var obj = JSON.parse(str);
@@ -17,6 +17,7 @@ module.exports = function(data) {
 	self.componentData = (!self.data.data) ? false : self.parseJSON(self.data.data);
 	self.save = function(event, useComponentData) {
 		if (useComponentData) self.data.data = (self.componentData) ? JSON.stringify(self.componentData) : "";
+		console.log("self:   ", self);
 		return $.ajax({
 			method: 'PUT',
 			url: '/components/',

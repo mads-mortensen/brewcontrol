@@ -27,16 +27,18 @@ router.get('/beer/:id', function(req, res, next) {
 // DELETE
 router.delete('/', function(req, res, next) {
 	if (req._body) {
-		Component.findOne(req.body, function (err, component) {			
-			component.remove(function(err) {
-				if (err) {
-					console.log(err);
-					res.send(false);
-				}
-				else {
-					res.send(true);
-				}	
-			});
+		Component.findOne({ _id : req.body._id }, function (err, component) {
+			if (component) {	
+				component.remove(function(err) {
+					if (err) {
+						console.log(err);
+						res.send(false);
+					}
+					else {
+						res.send(true);
+					}	
+				});
+			}
 		});
 	}
 	else {

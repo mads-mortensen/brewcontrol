@@ -54,7 +54,8 @@
 			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
 			self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
 			self.beerFactory.setupBeers().then(self.componentFactory.setupComponents).then(function () {
-				return self.ready = true;
+				self.createBcOptionsAndNames();
+				self.ready = true;
 			});
 		},
 		data: {
@@ -64,6 +65,8 @@
 			componentFactory: false, // Component factory
 			ready: false,
 			selectedBeer: "",
+			bc_options: {},
+			bc_names: {},
 			components_list: __webpack_require__(1) // Components
 		},
 		methods: {
@@ -73,7 +76,11 @@
 			},
 			// Components
 			addComponentToBeer: function addComponentToBeer(event) {
-				this.componentFactory.createNewComponent(event.target.beer.value, event.target.component.value).then(this.componentFactory.setupComponents);
+				var self = this;
+				self.componentFactory.createNewComponent(event.target.beer.value, event.target.component.value).then(function () {
+					self.componentFactory.setupComponents();
+					//self.addBCtoAllComponents();
+				});
 			},
 			addComponent: function addComponent(event) {
 				this.componentFactory.createNewComponent("", event.target.component.value).then(this.componentFactory.setupComponents);
@@ -100,9 +107,13 @@
 				}
 				return true;
 			},
-			getComponentBC: function getComponentBC(component) {
-				var comp = this.components_list[component.type.replace('_', '-')];
-				return comp ? this.components_list[component.type.replace('_', '-')].bc : false;
+			createBcOptionsAndNames: function createBcOptionsAndNames() {
+				// Only once pr page load
+				for (var component in this.components_list) {
+					var component_type = component.replace('-', '_');
+					this.bc_options[component_type] = this.components_list[component].bc.options;
+					this.bc_names[component_type] = this.components_list[component].bc.name;
+				}
 			}
 		}
 	});
@@ -971,7 +982,7 @@
 				dataType: 'JSON',
 				url: '/components/beer/' + id,
 				success: function success(components) {
-					return $(components).each(function (i, component) {
+					$(components).each(function (i, component) {
 						return self.components.push(new self.Component(component));
 					});
 				}
@@ -979,7 +990,7 @@
 		};
 		self.componentsByType = function (type) {
 			return self.components.length > 0 ? self.components.filter(function (component) {
-				return component.type == type;
+				return component.data.type == type;
 			}) : false;
 		};
 	};
@@ -993,9 +1004,9 @@
 	module.exports = function (data) {
 		var self = this;
 		self.data = data || false;
-		self.type = data.type || false;
 		self.hidden = true;
 		self.edited = false;
+		self.bc = false;
 		self.parseJSON = function (str) {
 			try {
 				var obj = JSON.parse(str);
@@ -1008,6 +1019,7 @@
 		self.componentData = !self.data.data ? false : self.parseJSON(self.data.data);
 		self.save = function (event, useComponentData) {
 			if (useComponentData) self.data.data = self.componentData ? JSON.stringify(self.componentData) : "";
+			console.log("self:   ", self);
 			return $.ajax({
 				method: 'PUT',
 				url: '/components/',
