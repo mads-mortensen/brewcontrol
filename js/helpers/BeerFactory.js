@@ -5,6 +5,7 @@ module.exports = function() {
 	self.beer_headers = [];
 	self.beer_headers_ignore = ['_id', '__v'];
 	self.beer = () => self.beers[0];
+	self.lastBeer = () => self.beers[self.beers.length-1];
 	// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
 	self.setupBeers = () => 
 		self.fetchBeers()

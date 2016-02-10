@@ -799,6 +799,9 @@
 		self.beer = function () {
 			return self.beers[0];
 		};
+		self.lastBeer = function () {
+			return self.beers[self.beers.length - 1];
+		};
 		// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
 		self.setupBeers = function () {
 			return self.fetchBeers().then(function (beers) {

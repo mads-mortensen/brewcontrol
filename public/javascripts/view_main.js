@@ -64,7 +64,7 @@
 				name: 'Home'
 			}, {
 				href: '/crud/',
-				name: 'CRUD'
+				name: 'Beers'
 			}]
 		},
 		computed: {

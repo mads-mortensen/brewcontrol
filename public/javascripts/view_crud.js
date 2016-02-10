@@ -48,7 +48,7 @@
 
 	// Vue
 	new Vue({
-		el: '#content',
+		el: 'body',
 		ready: function ready() {
 			var self = this;
 			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
@@ -56,6 +56,7 @@
 			self.beerFactory.setupBeers().then(self.componentFactory.setupComponents).then(function () {
 				self.createBcOptionsAndNames();
 				self.ready = true;
+				self.showSidebar = true;
 			});
 		},
 		data: {
@@ -67,12 +68,18 @@
 			selectedBeer: "",
 			bc_options: {},
 			bc_names: {},
+			showSidebar: true,
 			components_list: __webpack_require__(1) // Components
 		},
 		methods: {
 			// Beers
 			createNewBeer: function createNewBeer() {
-				this.beerFactory.createNewBeer().then(this.beerFactory.setupBeers);
+				self = this;
+				self.beerFactory.createNewBeer().then(function (beer) {
+					return self.beerFactory.setupBeers();
+				}).then(function () {
+					return self.selectedBeer = self.beerFactory.lastBeer();
+				});
 			},
 			// Components
 			addComponentToBeer: function addComponentToBeer(event) {
@@ -97,7 +104,7 @@
 
 				return confirm;
 			}(function (message, action, then) {
-				if (confirm(message)) action().then(then);
+				if (DEV) action().then(then);else if (confirm(message)) action().then(then);
 			}),
 			isComponentUnattached: function isComponentUnattached(beer_id) {
 				for (var i in this.beerFactory.beers) {
@@ -839,6 +846,9 @@
 		self.beer_headers_ignore = ['_id', '__v'];
 		self.beer = function () {
 			return self.beers[0];
+		};
+		self.lastBeer = function () {
+			return self.beers[self.beers.length - 1];
 		};
 		// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers
 		self.setupBeers = function () {

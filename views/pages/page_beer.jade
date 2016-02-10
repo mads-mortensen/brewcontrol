@@ -1,19 +1,17 @@
 extends ../layout_main
 
-block navlinks
-	a(href="", class="active") Beer #!{ beer_id }
-
 block content
 	.wrapper(
 		v-cloak
 		v-if="ready" 
 		transition="fade"
 	)
-		#bc-beer(v-cloak)
-			.bc-column
+		.bc-column
+			.section
 				h1 {{ beerFactory.beer().data.name }}
 				h2 {{ beerFactory.beer().data.style }}
-			.bc-column
+		.bc-column
+			.section
 				#bc-components
 					bc-color(
 						v-for="component in componentFactory.componentsByType('bc_color')", 

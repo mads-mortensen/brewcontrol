@@ -1,57 +1,66 @@
 extends ../layout_main
 
+block sidebar
+	.content(
+		v-if="ready"
+		v-cloak
+	)
+		.sidebar_section
+			h2 Actions
+			button(@click="createNewBeer") New beer
+			button(@click="beerFactory.saveAllBeers") Save all beers
+		.sidebar_section
+			.beer_list
+				h2 Beers
+				.beer_list_beer(
+					v-bind:class="{ selected: selectedBeer == '' }"
+					@click="selectedBeer = ''"
+				) All
+				.beer_list_beer(
+					v-for="beer in beerFactory.beers"
+					@click="selectedBeer = beer"
+					v-bind:class="{ selected: selectedBeer == beer }"
+				) {{ beer.data.name }}
+
 block content
+
 	.wrapper(
 		v-cloak
 		v-if="ready" 
 		transition="fade"
 	)
-		.bc-column
-			.section
-				h1 Beers
-				h2 Create new beer
-				button(@click="createNewBeer") new beer
-				button(@click="beerFactory.saveAllBeers") save all beers
+		.content_header
+			.button(@click="showSidebar = !showSidebar" v-if="showSidebar") Hide sidebar
+			.button(@click="showSidebar = !showSidebar" v-else) Show sidebar
+		.bc-column.large
 			.section
 				h2(v-if="beerFactory.beers.length == 0") No beers
-				table
-					thead
-						tr
-							th Data
-							th
-							th
-							th Components
-					tbody
-						tr(
-							v-for="beer in beerFactory.beers"
-							@click="selectedBeer = beer"
-							v-bind:class="{ selected: selectedBeer == beer }"
-						)
-							td
-								h2 {{ beer.data.name }}
-								.inner(v-for="header in beerFactory.beer_headers")
-									.label {{ header }}
-									input.field(
-										type="text", 
-										v-model="beer.data[header]" 
-										@change="beer.edited = true"
-										@keyup.enter="beer.save"
-									)
-							td.fixed_width_small
-								button.field(
-									@click="beer.save" 
-									v-bind:class="{ inactive : !beer.edited }"
-								) save
-								.space_h_small
-								button.field(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") delete
-							td.fixed_width_small
-								a(href="/beer/{{beer.data._id}}") Link
-							td.fixed_width_large
+				.beers
+					.beer(
+						v-for="beer in beerFactory.beers"
+						v-bind:class="{ selected: selectedBeer == beer }"
+						v-if="selectedBeer == beer || selectedBeer == ''"
+					)
+						a(href='/beer/{{beer.data._id}}')
+								h2 {{ beer.data.name }} <span class='style'>{{ beer.data.style }}</span>
+						.beer_header_image(style="background-image: url('/images/beer_header.jpg')")
+						.beer_section
+							.inner(v-for="header in beerFactory.beer_headers")
+								.label {{ header }}
+								input.field(
+									type="text", 
+									v-model="beer.data[header]" 
+									@change="beer.edited = true"
+									@keyup.enter="beer.save"
+								)
+						.beer_section
+							.label Components
+							.components
 								.component(
 									v-for="component in componentFactory.components" 
 									v-if="bc_options[component.data.type] && component.data.beer_id == beer.data._id" 
 									)
-									.label {{ bc_names[component.data.type] }}
+									.component_label {{ bc_names[component.data.type] }}
 										.button(@click="component.hidden = !component.hidden") {{ component.hidden ? 'show' : 'hide' }}
 									.component-options(
 										v-show="!component.hidden"
@@ -61,7 +70,7 @@ block content
 											v-for="option in bc_options[component.data.type]"
 										) 
 											label {{ option.name }}
-											input(
+											input.field(
 												v-if="option.type == 'String'"  
 												v-model="component.componentData[option.id]",
 												type="text"
@@ -74,26 +83,30 @@ block content
 											)
 												option(value="False") False
 												option(value="True") True
-									button(
-										@click="component.saveComponentData" 
-										v-bind:class="{ inactive : !component.edited }"
-									) save
-									button(@click="component.delete().then(componentFactory.setupComponents)") delete
-		.bc-column
+									.buttons
+										button.red(@click="component.delete().then(componentFactory.setupComponents)") delete
+										button(
+											@click="component.saveComponentData" 
+											v-bind:class="{ inactive : !component.edited }"
+										) save
+						.beer_section
+							button.large.red(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") delete
+							button.large(
+								@click="beer.save" 
+								v-bind:class="{ inactive : !beer.edited }"
+							) save
+		.bc-column.small
 			.section
-				h1 Components
-				h2 Create new component, and attach to beer
 				form(v-on:submit.prevent="addComponentToBeer")
 					select(name="component")
 						option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
-					select#testing(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
+					select(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
 						option(
 							v-for="beer in beerFactory.beers" 
 							value="{{ beer.data._id }}"
 							selected="{{ selectedBeer != '' && selectedBeer.data._id == beer.data._id }}"
 						) {{ beer.data.name }}
 					button(type="submit") add
-				h2 Create new component
 				form(v-on:submit.prevent="addComponent")
 					select(name="component")
 						option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
@@ -122,7 +135,6 @@ block content
 									v-on:change="component.edited = true"
 								)
 									option(v-for="bc_component in components_list" value="{{bc_component.bc.id }}") {{ bc_component.bc.name }}
-									option(value="whaat") whaatsdsd
 							td.fixed_width_medium
 								button.field(
 									v-if="selectedBeer != '' && component.data.beer_id != selectedBeer.data._id"
@@ -134,6 +146,6 @@ block content
 									v-bind:class="{ inactive : !component.edited }"
 								) save
 							td.fixed_width_small
-								button.field(@click="confirm('delete?', component.delete)") delete
+								button.field(@click="confirm('delete?', component.delete, componentFactory.setupComponents)") delete
 block scripts
 	script(type="text/javascript", src="/javascripts/view_crud.js")

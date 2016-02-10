@@ -8,7 +8,7 @@ new Vue({
 			},
 			{
 				href: '/crud/', 
-				name: 'CRUD'
+				name: 'Beers'
 			}
 		]
 	},

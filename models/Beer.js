@@ -2,9 +2,10 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-	name: {type: String, default: 'unnamed beer'},
-	style: {type: String, default: 'no style'},
-	target_ebc: {type: Number, default: 0}
+	name: { type: String, default: 'unnamed beer' },
+	style: { type: String, default: 'no style' },
+	target_ebc: { type: Number, default: 0 },
+	created: { type: Date, default: Date.now }
 });
 
 mongoose.model('Beer', schema);

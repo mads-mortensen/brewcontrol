@@ -1,6 +1,6 @@
 // Vue
 new Vue({
-	el: '#content',
+	el: 'body',
 	ready: function() {
 		var self = this;
 		self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
@@ -10,6 +10,7 @@ new Vue({
 			.then(() => { 
 				self.createBcOptionsAndNames();
 				self.ready = true;
+				self.showSidebar = true;
 			})
 	},
 	data: {
@@ -21,13 +22,16 @@ new Vue({
 		selectedBeer: "",
 		bc_options: {},
 		bc_names: {},
+		showSidebar: true,
 		components_list: require('../vue_components/components') // Components
 	},
 	methods: {
 		// Beers
 		createNewBeer: function() {
-			this.beerFactory.createNewBeer()
-				.then(this.beerFactory.setupBeers)
+			self = this;
+			self.beerFactory.createNewBeer()
+				.then((beer) => self.beerFactory.setupBeers())
+				.then(() => self.selectedBeer = self.beerFactory.lastBeer())
 		},
 		// Components
 		addComponentToBeer: function(event) {
@@ -43,8 +47,9 @@ new Vue({
 				.then(this.componentFactory.setupComponents)
 		},
 		// Utility
-		confirm: (message, action, then) => {
-			if (confirm(message)) action().then(then);
+		confirm: function(message, action, then) {
+			if (DEV) action().then(then);
+			else if (confirm(message)) action().then(then);
 		},
 		isComponentUnattached: function(beer_id) {
 			for (var i in this.beerFactory.beers) {
