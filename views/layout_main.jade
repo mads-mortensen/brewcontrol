@@ -17,10 +17,10 @@ html
 				) {{ nav.name }}
 				block navlinks
 		#main-container
-			.sidebar(v-cloak :class="{ hide: !showSidebar }" transition="slide")
-				block sidebar
+			block sidebar
 			#content
 				block content
+			block sidebar-right
 		footer
 			.footer_info <b>BrewControl</b> by Mads Mortensen
 		script(type="text/javascript", src="/javascripts/view_main.js")

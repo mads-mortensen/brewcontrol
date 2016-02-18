@@ -48,7 +48,7 @@
 
 	// Vue
 	new Vue({
-		el: 'body',
+		el: '#main-container',
 		ready: function ready() {
 			var self = this;
 			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
@@ -56,7 +56,9 @@
 			self.beerFactory.setupBeers().then(self.componentFactory.setupComponents).then(function () {
 				self.createBcOptionsAndNames();
 				self.ready = true;
-				self.showSidebar = true;
+				Vue.nextTick(function () {
+					updateGridView();
+				});
 			});
 		},
 		data: {
@@ -68,8 +70,27 @@
 			selectedBeer: "",
 			bc_options: {},
 			bc_names: {},
-			showSidebar: true,
+			showSidebar: JSON.parse(localStorage.getItem('showSidebar')) || false,
+			showSidebarRight: JSON.parse(localStorage.getItem('showSidebarRight')) || false,
+			hideUnrelated: JSON.parse(localStorage.getItem('hideUnrelated')) || false,
 			components_list: __webpack_require__(1) // Components
+		},
+		watch: {
+			'showSidebar': function showSidebar(val, oldVal) {
+				setTimeout(function () {
+					updateGridView();
+				}, 300); // 300 = transition time
+				localStorage.setItem('showSidebar', val);
+			},
+			'showSidebarRight': function showSidebarRight(val, oldVal) {
+				setTimeout(function () {
+					updateGridView();
+				}, 300); // 300 = transition time
+				localStorage.setItem('showSidebarRight', val);
+			},
+			'hideUnrelated': function hideUnrelated(val, oldVal) {
+				localStorage.setItem('hideUnrelated', val);
+			}
 		},
 		methods: {
 			// Beers
@@ -91,6 +112,9 @@
 			},
 			addComponent: function addComponent(event) {
 				this.componentFactory.createNewComponent("", event.target.component.value).then(this.componentFactory.setupComponents);
+			},
+			duplicateComponent: function duplicateComponent(component) {
+				this.componentFactory.duplicate(component).then(this.componentFactory.setupComponents);
 			},
 			// Utility
 			confirm: function (_confirm) {
@@ -124,6 +148,21 @@
 			}
 		}
 	});
+
+	$(function () {
+		$(window).resize(function () {
+			console.log($('.beer-outer').length);
+			updateGridView();
+		});
+	});
+
+	function updateGridView() {
+		if ($('#content').width() < 800) {
+			$('.beer-outer').addClass('full');
+		} else {
+			$('.beer-outer').removeClass('full');
+		}
+	}
 
 /***/ },
 /* 1 */
@@ -1002,6 +1041,12 @@
 			return self.components.length > 0 ? self.components.filter(function (component) {
 				return component.data.type == type;
 			}) : false;
+		};
+		self.duplicate = function (component) {
+			var copy = new self.Component(component.data);
+			copy.data._id = undefined;
+			console.log(copy);
+			return copy.save();
 		};
 	};
 

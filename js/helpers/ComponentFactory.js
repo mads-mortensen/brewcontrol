@@ -47,4 +47,10 @@ module.exports = function() {
 	self.componentsByType = function(type) {
 		return (self.components.length > 0) ? self.components.filter(function(component) { return component.data.type == type }) : false;
 	}
+	self.duplicate = component => {
+		var copy = new self.Component(component.data);
+		copy.data._id = undefined;
+		console.log(copy);
+		return copy.save();
+	}
 }

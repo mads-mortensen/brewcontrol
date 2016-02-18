@@ -1,4 +1,5 @@
 /* TODO: !! most styling is just for testing */
+/* UI elements */
 body {
   background-color: #F3F5F6;
   font-family: Arial;
@@ -69,6 +70,7 @@ html {
 .content_header {
   display: block;
   padding-left: 1.5em;
+  padding-right: 1.5em;
   margin-bottom: 1.5em; }
   .content_header .button {
     color: #CFCFCF;
@@ -80,6 +82,8 @@ html {
     padding: 0 0.3em;
     font-weight: normal;
     cursor: pointer; }
+    .content_header .button.right {
+      float: right; }
     .content_header .button:hover {
       color: #555459;
       border: 1px solid #555459; }
@@ -131,7 +135,7 @@ header {
     border-top: 1px solid #DEDEDE;
     padding-left: 0.5em;
     margin-bottom: 0.5em;
-    color: #8A5555;
+    color: #4DA398;
     opacity: 0.5; }
   .sidebar .sidebar_section {
     width: 14em;
@@ -141,6 +145,21 @@ header {
       margin: 0 0 0.5em 0.5em; }
   .sidebar .content {
     min-height: inherit; }
+  .sidebar.right {
+    -webkit-box-shadow: inset 1px 0 0 0 #DEDEDE;
+    -moz-box-shadow: inset 1px 0 0 0 #DEDEDE;
+    box-shadow: inset 1px 0 0 0 #DEDEDE;
+    flex: 0 0 25em; }
+    .sidebar.right .inner {
+      margin-left: 1em;
+      margin-right: 1em; }
+    .sidebar.right button {
+      margin-left: 0;
+      margin-right: 0.5em; }
+    .sidebar.right .sidebar_section {
+      width: 25em; }
+    .sidebar.right.hide {
+      flex: 0 0 0; }
 
 nav {
   display: inline-block;
@@ -155,13 +174,13 @@ nav {
     margin: 0;
     padding: 0 2em;
     text-decoration: none;
-    color: #8A5555; }
+    color: #4DA398; }
     nav a.active, nav a.active:hover {
-      -webkit-box-shadow: inset 0 -4px 0 0 #8A5555;
-      -moz-box-shadow: inset 0 -4px 0 0 #8A5555;
-      box-shadow: inset 0 -4px 0 0 #8A5555; }
+      -webkit-box-shadow: inset 0 -4px 0 0 #4DA398;
+      -moz-box-shadow: inset 0 -4px 0 0 #4DA398;
+      box-shadow: inset 0 -4px 0 0 #4DA398; }
     nav a:hover {
-      background-color: #FAF5F5; }
+      background-color: #F0F7F6; }
 
 footer {
   clear: both;
@@ -201,8 +220,8 @@ footer {
 
 .component {
   background-color: #FFFFFF;
-  border-bottom: 1px solid #8A5555;
-  color: #8A5555;
+  border-bottom: 1px solid #4DA398;
+  color: #4DA398;
   font-size: 1em; }
   .component:last-child {
     margin-bottom: 0;
@@ -212,7 +231,7 @@ footer {
     .component .component_label .button {
       display: inline-block;
       float: right;
-      color: #8A5555;
+      color: #4DA398;
       font-weight: bold;
       cursor: pointer;
       font-size: 0.8em;
@@ -223,7 +242,7 @@ footer {
     margin: 0 0.5em 0.5em 0 !important; }
 
 .component-options {
-  background-color: #8A5555;
+  background-color: #4DA398;
   color: #FFFFFF;
   margin: 0;
   margin-bottom: 0.5em;
@@ -233,7 +252,7 @@ footer {
     margin-bottom: 0.2em; }
 
 .components {
-  border: 1px solid #8A5555; }
+  border: 1px solid #4DA398; }
 
 .component-option {
   display: block;
@@ -243,7 +262,7 @@ footer {
     width: 100%; }
   .component-option select {
     border-radius: 0.5em;
-    color: #8A5555;
+    color: #4DA398;
     height: 3em; }
 
 .bc-column {
@@ -261,7 +280,8 @@ footer {
   padding: 1.5em; }
 
 .wrapper {
-  overflow: hidden; }
+  overflow: hidden;
+  margin-bottom: 3em; }
 
 .section {
   margin: 0 1.5em 2em 1.5em;
@@ -313,6 +333,10 @@ button {
     background-color: #E68585; }
     button.red:hover {
       background-color: #EB9898; }
+  button.blue {
+    background-color: #2A79B2; }
+    button.blue:hover {
+      background-color: #3888C2; }
 
 select {
   -webkit-appearance: none;
@@ -334,16 +358,8 @@ table {
     height: 2em; }
   table button.field {
     width: 100%; }
-
-.selected-child {
-  background-color: #51BF94; }
-  .selected-child:hover {
-    background-color: #51BF94; }
-
-.unatatched {
-  background-color: #F4C2C2; }
-  .unatatched:hover {
-    background-color: #F4C2C2; }
+  table select.field {
+    width: 100%; }
 
 .inactive {
   opacity: 0.3;
@@ -361,14 +377,31 @@ table {
 tr {
   border: none;
   width: 100%; }
-  tr:hover {
-    background-color: #E0E0E0; }
 
 td, th {
   margin: 0;
   padding: 0.3em;
   vertical-align: top;
   border: none; }
+
+.beer-outer {
+  width: 100%; }
+  .beer-outer.full.grid {
+    width: 100%; }
+    .beer-outer.full.grid .beer {
+      margin-left: 0 !important;
+      margin-right: 0 !important; }
+  .beer-outer.grid {
+    width: 50%;
+    float: left; }
+    .beer-outer.grid .beer_header_image {
+      margin-bottom: 1em; }
+    .beer-outer.grid:nth-child(even) .beer {
+      margin-left: 0.5em; }
+    .beer-outer.grid:nth-child(odd) .beer {
+      margin-right: 0.5em; }
+  .beer-outer.selected {
+    width: 10%; }
 
 .beer {
   padding: 2em;
@@ -378,9 +411,9 @@ td, th {
   border-radius: 0px; }
   .beer h2 {
     margin: 0;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: normal;
-    background-color: #8A5555;
+    background-color: #4DA398;
     padding: 0.5em;
     display: block;
     color: #FFFFFF; }
@@ -388,9 +421,9 @@ td, th {
       font-size: 0.5em; }
   .beer input.field {
     width: 100%;
-    border: 1px solid #8A5555;
+    border: 1px solid #4DA398;
     background-color: #F9F9F9;
-    color: #8A5555;
+    color: #4DA398;
     opacity: 0.8;
     margin: 0;
     padding: 0 0.5em 0 0.5em;
@@ -404,7 +437,7 @@ td, th {
     padding: 0.2em 0.4em;
     color: #FFFFFF;
     font-size: 13px;
-    background-color: #8A5555;
+    background-color: #4DA398;
     display: inline-block; }
   .beer .buttons {
     display: block;
@@ -415,16 +448,8 @@ td, th {
       margin-left: 0.5em; }
   .beer a {
     text-decoration: none;
-    color: inherit; }
-    .beer a:hover:before {
-      content: 'beer page';
-      border: 1px solid #FFFFFF;
-      padding: 0.7em 0.7em;
-      margin: 1em;
-      font-size: 0.5em;
-      float: right;
-      color: #FFFFFF;
-      pointer-events: none; }
+    color: inherit;
+    cursor: pointer; }
 
 .beer_section {
   margin-bottom: 1em;
@@ -442,8 +467,39 @@ thead th, thead tr {
   border: none;
   text-align: left; }
 
-thead tr:hover {
-  background-color: #F3F5F6; }
+.component-table {
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  background-color: #D1E3F0;
+  border: 1px solid #B6D0E3;
+  color: #87ACC7; }
+  .component-table th {
+    font-size: 0.5em; }
+  .component-table td {
+    margin: 0 !important; }
+  .component-table tr {
+    margin: 0 !important; }
+  .component-table input {
+    background-color: #F8F8F8; }
+  .component-table select {
+    border: none;
+    height: 2em; }
+  .component-table button.field {
+    margin-bottom: 0; }
+  .component-table.unatatched {
+    background-color: #F5DCDC;
+    border: 1px solid #EDCACA; }
+    .component-table.unatatched:hover {
+      background-color: #F5DCDC; }
+    .component-table.unatatched th {
+      color: #E3B3B3; }
+  .component-table.selected-child {
+    background-color: #E1F2EC;
+    border: 1px solid #CAEBDF; }
+    .component-table.selected-child:hover {
+      background-color: #E1F2EC; }
+    .component-table.selected-child th {
+      color: #ABDECC; }
 
 /* Aimation */
 .fade-transition {
@@ -460,14 +516,16 @@ thead tr:hover {
 .beer_header_image {
   width: 100%;
   height: 15em;
-  background-size: 100% auto;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
 
 .slide-transition {
-  transition: flex .3s ease;
-  width: 100px; }
+  transition: flex .3s ease; }
 
 .slide-enter, .slide-leave {
   width: 0; }

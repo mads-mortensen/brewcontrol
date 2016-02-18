@@ -1,6 +1,6 @@
 // Vue
 new Vue({
-	el: 'body',
+	el: '#main-container',
 	ready: function() {
 		var self = this;
 		self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
@@ -10,7 +10,9 @@ new Vue({
 			.then(() => { 
 				self.createBcOptionsAndNames();
 				self.ready = true;
-				self.showSidebar = true;
+				Vue.nextTick(function () {
+					updateGridView();
+				})
 			})
 	},
 	data: {
@@ -22,8 +24,23 @@ new Vue({
 		selectedBeer: "",
 		bc_options: {},
 		bc_names: {},
-		showSidebar: true,
+		showSidebar: JSON.parse(localStorage.getItem('showSidebar')) || false,
+		showSidebarRight: JSON.parse(localStorage.getItem('showSidebarRight')) || false,
+		hideUnrelated: JSON.parse(localStorage.getItem('hideUnrelated')) || false,
 		components_list: require('../vue_components/components') // Components
+	},
+	watch: {
+		'showSidebar': function(val, oldVal) {
+			setTimeout(function() {updateGridView();}, 300); // 300 = transition time
+			localStorage.setItem('showSidebar', val);
+		},
+		'showSidebarRight': function(val, oldVal) {
+			setTimeout(function() {updateGridView();}, 300); // 300 = transition time
+			localStorage.setItem('showSidebarRight', val);
+		},
+		'hideUnrelated': function(val, oldVal) {
+			localStorage.setItem('hideUnrelated', val);
+		}
 	},
 	methods: {
 		// Beers
@@ -45,6 +62,9 @@ new Vue({
 		addComponent: function(event) {
 			this.componentFactory.createNewComponent("", event.target.component.value)
 				.then(this.componentFactory.setupComponents)
+		},
+		duplicateComponent: function(component) {
+			this.componentFactory.duplicate(component).then(this.componentFactory.setupComponents)
 		},
 		// Utility
 		confirm: function(message, action, then) {
@@ -68,3 +88,19 @@ new Vue({
 		}
 	}
 });
+
+$(function() {
+	$(window).resize(function() {
+		console.log($('.beer-outer').length);
+		updateGridView();
+	})
+})
+
+function updateGridView() {
+	if ($('#content').width() < 800) {
+		$('.beer-outer').addClass('full');
+	} 
+	else {
+		$('.beer-outer').removeClass('full');
+	}
+}

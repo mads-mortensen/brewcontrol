@@ -955,6 +955,12 @@
 				return component.data.type == type;
 			}) : false;
 		};
+		self.duplicate = function (component) {
+			var copy = new self.Component(component.data);
+			copy.data._id = undefined;
+			console.log(copy);
+			return copy.save();
+		};
 	};
 
 /***/ },
