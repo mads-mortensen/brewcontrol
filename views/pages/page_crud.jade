@@ -29,6 +29,7 @@ block sidebar-right
 				h2 Actions
 				.inner
 					form(v-on:submit.prevent="addComponentToBeer")
+						label Create new (on beer)
 						select(name="component")
 							option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
 						select(name="beer" value="{{ selectedBeer != '' && selectedBeer.data._id }}")
@@ -39,6 +40,7 @@ block sidebar-right
 							) {{ beer.data.name }}
 						button.blue(type="submit") Add
 					form(v-on:submit.prevent="addComponent")
+						label Create new
 						select(name="component")
 							option(v-for="bc_component in components_list") {{ bc_component.bc.name }}
 						button.blue(type="submit") Add
@@ -91,8 +93,7 @@ block sidebar-right
 											v-bind:class="{ inactive : !component.edited }"
 										) Save
 									td.red.fixed_width_small
-										button.red.field(@click="confirm('delete?', component.delete, componentFactory.setupComponents)") Delete
-
+										button.red.field(@click="confirm('delete?', component.delete, componentFactory.setupComponents)") X
 block content
 	.wrapper(
 		v-cloak
@@ -100,10 +101,14 @@ block content
 		transition="fade"
 	)
 		.content_header
-			.button(@click="showSidebar = !showSidebar" v-if="showSidebar") Hide beers
-			.button(@click="showSidebar = !showSidebar" v-else) Show beers
-			.button.right(@click="showSidebarRight = !showSidebarRight" v-if="showSidebarRight") Hide components
-			.button.right(@click="showSidebarRight = !showSidebarRight" v-else) Show components
+			.col.left
+				.button(@click="showSidebar = !showSidebar" v-if="showSidebar") Hide beers
+				.button(@click="showSidebar = !showSidebar" v-else) Show beers
+			.col.center
+				a.button.center(v-if="selectedBeer != ''" href="/beer/{{selectedBeer.data._id}}") Beer page
+			.col.right
+				.button.right(@click="showSidebarRight = !showSidebarRight" v-if="showSidebarRight") Hide components
+				.button.right(@click="showSidebarRight = !showSidebarRight" v-else) Show components	
 		.section
 			h2(v-if="beerFactory.beers.length == 0") No beers
 			.beers
@@ -158,13 +163,13 @@ block content
 												option(value="False") False
 												option(value="True") True
 									.buttons
-										button.red(@click="component.delete().then(componentFactory.setupComponents)") Delete
+										button.red(@click="component.delete().then(componentFactory.setupComponents)") X
 										button(
 											@click="component.saveComponentData" 
 											v-bind:class="{ inactive : !component.edited }"
 										) Save
 						.beer_section
-							button.large.red(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") Delete
+							button.large.red(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") X
 							button.large(
 								@click="beer.save" 
 								v-bind:class="{ inactive : !beer.edited }"

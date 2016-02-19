@@ -76,6 +76,10 @@ html {
 	flex: 15;
 }
 
+.beers {
+	overflow: hidden;
+}
+
 .beer_list {
 	width: $sidebar-width;
 	position: relative;
@@ -109,6 +113,30 @@ html {
 	padding-left: $bc-spacing-small;
 	padding-right: $bc-spacing-small;
 	margin-bottom: $bc-spacing-small;
+	overflow: hidden;
+	.col {
+		flex: 3;
+		width: 33.3%;
+		display: inline-block;
+		float: left;
+		overflow: hidden;
+		&.left {		
+		}
+		&.right {
+			float: right;
+		}
+		&.center {
+			text-align: center;
+			.button {
+				border: 1px solid $secondary-color;
+				color: $secondary-color;
+				text-decoration: none;
+				&:hover {
+					opacity: 0.6;
+				}
+			}
+		}
+	}
 	.button {
 		color: #CFCFCF;
 		border: 1px solid $border-color;
@@ -121,6 +149,9 @@ html {
 		cursor: pointer;
 		&.right {
 			float: right;
+		}
+		&.center {
+
 		}
 		&:hover {
 			color: #555459;
@@ -159,6 +190,12 @@ header {
 	box-shadow:inset -1px 0 0 0 $border-color;
 	&.hide {
 		flex: 0 0 0;
+	}
+	select {
+		border-radius: 0.5em;
+		color: $secondary-color;
+		height: 2em;
+		font-size: 0.7em;	
 	}
 	h3 {
 		display: block;
@@ -202,6 +239,7 @@ header {
 		button {
 			margin-left: 0;
 			margin-right: 0.5em;
+			height: 2em;
 		}
 		.sidebar_section {
 			width: $sidebar-large-width;
@@ -213,6 +251,18 @@ header {
 		-moz-box-shadow:inset 1px 0 0 0 $border-color;
 		box-shadow:inset 1px 0 0 0 $border-color;
 		flex: 0 0 $sidebar-large-width;
+	}
+	button {
+		font-size: 0.7em;	
+	}
+	form {
+		label {
+			display: block;
+			color: $secondary-color;
+			font-size: 0.5em;
+			margin-bottom: 0.5em;
+		}
+		margin-bottom: 0.5em;
 	}
 }
 
@@ -327,6 +377,9 @@ footer {
 
 .components {
 	border: 1px solid $secondary-color;
+	button {
+		font-size: 0.7em;
+	}
 }
 
 .component-option {
@@ -401,14 +454,14 @@ button {
 	border: none;
 	border-radius: $small-radius;
 	margin: 0 0.5em 0 0;
-	height: 2.5em;
+	height: 2em;
 	cursor: pointer;
 	padding: 0 1em 2px 1em;
 	background-color: $green;
 	box-shadow: inset 0 -2px rgba(0,0,0,.25);
 	color: #FFFFFF;
 	vertical-align: top;
-	font-size: 0.7em;
+	font-size: 1em;
 	&:hover {
 		background-color: $green-light;
 	}
@@ -537,6 +590,9 @@ td, th {
 		color: #FFFFFF;
 		.style {
 			font-size: 0.5em;
+		}
+		&:hover {
+			opacity: 0.7;
 		}
 	}
 	input.field {

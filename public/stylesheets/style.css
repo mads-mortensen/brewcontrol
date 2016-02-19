@@ -46,6 +46,9 @@ html {
   float: left;
   flex: 15; }
 
+.beers {
+  overflow: hidden; }
+
 .beer_list {
   width: 14em;
   position: relative;
@@ -71,7 +74,24 @@ html {
   display: block;
   padding-left: 1.5em;
   padding-right: 1.5em;
-  margin-bottom: 1.5em; }
+  margin-bottom: 1.5em;
+  overflow: hidden; }
+  .content_header .col {
+    flex: 3;
+    width: 33.3%;
+    display: inline-block;
+    float: left;
+    overflow: hidden; }
+    .content_header .col.right {
+      float: right; }
+    .content_header .col.center {
+      text-align: center; }
+      .content_header .col.center .button {
+        border: 1px solid #4DA398;
+        color: #4DA398;
+        text-decoration: none; }
+        .content_header .col.center .button:hover {
+          opacity: 0.6; }
   .content_header .button {
     color: #CFCFCF;
     border: 1px solid #DEDEDE;
@@ -116,6 +136,11 @@ header {
   box-shadow: inset -1px 0 0 0 #DEDEDE; }
   .sidebar.hide {
     flex: 0 0 0; }
+  .sidebar select {
+    border-radius: 0.5em;
+    color: #4DA398;
+    height: 2em;
+    font-size: 0.7em; }
   .sidebar h3 {
     display: block;
     margin: 0;
@@ -155,11 +180,21 @@ header {
       margin-right: 1em; }
     .sidebar.right button {
       margin-left: 0;
-      margin-right: 0.5em; }
+      margin-right: 0.5em;
+      height: 2em; }
     .sidebar.right .sidebar_section {
       width: 25em; }
     .sidebar.right.hide {
       flex: 0 0 0; }
+  .sidebar button {
+    font-size: 0.7em; }
+  .sidebar form {
+    margin-bottom: 0.5em; }
+    .sidebar form label {
+      display: block;
+      color: #4DA398;
+      font-size: 0.5em;
+      margin-bottom: 0.5em; }
 
 nav {
   display: inline-block;
@@ -253,6 +288,8 @@ footer {
 
 .components {
   border: 1px solid #4DA398; }
+  .components button {
+    font-size: 0.7em; }
 
 .component-option {
   display: block;
@@ -315,14 +352,14 @@ button {
   border: none;
   border-radius: 0.3em;
   margin: 0 0.5em 0 0;
-  height: 2.5em;
+  height: 2em;
   cursor: pointer;
   padding: 0 1em 2px 1em;
   background-color: #2AB27B;
   box-shadow: inset 0 -2px rgba(0, 0, 0, 0.25);
   color: #FFFFFF;
   vertical-align: top;
-  font-size: 0.7em; }
+  font-size: 1em; }
   button:hover {
     background-color: #42C993; }
   button:focus {
@@ -419,6 +456,8 @@ td, th {
     color: #FFFFFF; }
     .beer h2 .style {
       font-size: 0.5em; }
+    .beer h2:hover {
+      opacity: 0.7; }
   .beer input.field {
     width: 100%;
     border: 1px solid #4DA398;
