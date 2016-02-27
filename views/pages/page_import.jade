@@ -1,0 +1,25 @@
+extends ../layout_main
+
+block scripts
+	script(type="text/javascript", src="/javascripts/view_import.js")
+
+block content
+	.wrapper
+		.content_header
+		.section
+			h1 Import beer
+			h2 Choose beerXML file
+			input#inputfile(type="file")
+			.space_h_large
+			button.blue(@click="import") Load
+		.section(v-cloak v-if="recipes.length > 0")
+			h1 Recipes
+			.recipe(
+				v-for="recipe in recipes"
+				v-bind:class="{ selected : recipe.selected }"
+				@click="recipe.selected = !recipe.selected"
+			)
+				.name {{ recipe.NAME }}
+			.space_h_large
+			button.blue(@click="selectAll") Select All
+			button(@click="createSelected") Import Selected

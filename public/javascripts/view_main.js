@@ -47,11 +47,11 @@
 
 	'use strict';
 
-	__webpack_require__(21);
+	__webpack_require__(175);
 
 /***/ },
 
-/***/ 21:
+/***/ 175:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -65,6 +65,9 @@
 			}, {
 				href: '/crud/',
 				name: 'Beers'
+			}, {
+				href: '/import/',
+				name: 'Import'
 			}]
 		},
 		computed: {

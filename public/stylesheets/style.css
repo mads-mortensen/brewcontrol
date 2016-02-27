@@ -324,7 +324,7 @@ footer {
     font-size: 1em; }
   .section h1 {
     font-size: 2em;
-    background-color: #555459;
+    background-color: #566B73;
     color: #FFFFFF;
     font-size: 14pt;
     font-weight: normal;
@@ -338,11 +338,16 @@ footer {
 .hidden {
   display: none; }
 
-.space_h_small {
+.space_h_small, space_h_large {
   margin: 0;
   padding: 0;
-  display: block;
+  display: block; }
+
+.space_h_small {
   height: 0.3em; }
+
+.space_h_large {
+  height: 1em; }
 
 .beers {
   overflow: hidden;
@@ -470,6 +475,20 @@ footer {
     margin: 0 0 0 0.5em; }
     .beer_section button.large {
       font-size: 1em; }
+
+/* IMPORT */
+.recipe {
+  line-height: 2em;
+  cursor: pointer;
+  font-weight: bold;
+  color: #473E7D;
+  padding-left: 0.5em;
+  border-radius: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid #473E7D; }
+  .recipe.selected {
+    background-color: #473E7D;
+    color: #FFFFFF; }
 
 /* INPUT */
 button {

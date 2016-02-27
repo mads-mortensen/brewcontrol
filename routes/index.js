@@ -9,6 +9,10 @@ router.get('/crud/', function(req, res, next) {
 	res.render('pages/page_crud');
 });
 
+router.get('/import/', function(req, res, next) {
+	res.render('pages/page_import');
+});
+
 router.get('/beer/:id', function(req, res, next) {
 	res.render('pages/page_beer', {beer_id : req.params.id});
 });

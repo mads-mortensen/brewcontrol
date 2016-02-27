@@ -9,6 +9,10 @@ new Vue({
 			{
 				href: '/crud/', 
 				name: 'Beers'
+			},
+			{
+				href: '/import/', 
+				name: 'Import'
 			}
 		]
 	},

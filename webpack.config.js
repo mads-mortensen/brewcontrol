@@ -3,9 +3,10 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: {
-		view_beer: './js/view_beer.js',
-		view_main: 	'./js/view_main.js',
-		view_crud: 	'./js/view_crud.js'
+		view_beer: 		'./js/view_beer.js',
+		view_main: 		'./js/view_main.js',
+		view_crud: 		'./js/view_crud.js',
+		view_import: 	'./js/view_import.js'
 	},
 	output: {
 		path: path.join(__dirname, '/public/javascripts/'),
