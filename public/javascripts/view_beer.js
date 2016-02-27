@@ -795,7 +795,7 @@
 		self.Beer = __webpack_require__(18);
 		self.beers = [];
 		self.beer_headers = [];
-		self.beer_headers_ignore = ['_id', '__v'];
+		self.beer_headers_ignore = ['_id', '__v', 'status'];
 		self.beer = function () {
 			return self.beers[0];
 		};

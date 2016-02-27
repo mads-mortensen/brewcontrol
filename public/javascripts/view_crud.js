@@ -51,13 +51,16 @@
 		el: '#main-container',
 		ready: function ready() {
 			var self = this;
+			$(window).resize(function () {
+				self.updateGridView();
+			});
 			self.beerFactory = new self.BeerFactory(); // Instantiate beer factory
 			self.componentFactory = new self.ComponentFactory(); // Instantiate component factory
 			self.beerFactory.setupBeers().then(self.componentFactory.setupComponents).then(function () {
 				self.createBcOptionsAndNames();
 				self.ready = true;
 				Vue.nextTick(function () {
-					updateGridView();
+					self.updateGridView();
 				});
 			});
 		},
@@ -73,18 +76,28 @@
 			showSidebar: JSON.parse(localStorage.getItem('showSidebar')) || false,
 			showSidebarRight: JSON.parse(localStorage.getItem('showSidebarRight')) || false,
 			hideUnrelated: JSON.parse(localStorage.getItem('hideUnrelated')) || false,
-			components_list: __webpack_require__(1) // Components
+			components_list: __webpack_require__(1), // Components
+			beer_status: {
+				0: 'Idea',
+				1: 'Scheduled for brewing',
+				2: 'Brewing',
+				3: 'Conditioning',
+				4: 'Dry hopping',
+				5: 'On tap'
+			}
 		},
 		watch: {
 			'showSidebar': function showSidebar(val, oldVal) {
+				var self = this;
 				setTimeout(function () {
-					updateGridView();
+					self.updateGridView();
 				}, 300); // 300 = transition time
 				localStorage.setItem('showSidebar', val);
 			},
 			'showSidebarRight': function showSidebarRight(val, oldVal) {
+				var self = this;
 				setTimeout(function () {
-					updateGridView();
+					self.updateGridView();
 				}, 300); // 300 = transition time
 				localStorage.setItem('showSidebarRight', val);
 			},
@@ -145,24 +158,16 @@
 					this.bc_options[component_type] = this.components_list[component].bc.options;
 					this.bc_names[component_type] = this.components_list[component].bc.name;
 				}
+			},
+			updateGridView: function updateGridView() {
+				if ($('#content').width() < 800) {
+					$('.beers').addClass('full');
+				} else {
+					$('.beers').removeClass('full');
+				}
 			}
 		}
 	});
-
-	$(function () {
-		$(window).resize(function () {
-			console.log($('.beer-outer').length);
-			updateGridView();
-		});
-	});
-
-	function updateGridView() {
-		if ($('#content').width() < 800) {
-			$('.beer-outer').addClass('full');
-		} else {
-			$('.beer-outer').removeClass('full');
-		}
-	}
 
 /***/ },
 /* 1 */
@@ -882,7 +887,7 @@
 		self.Beer = __webpack_require__(18);
 		self.beers = [];
 		self.beer_headers = [];
-		self.beer_headers_ignore = ['_id', '__v'];
+		self.beer_headers_ignore = ['_id', '__v', 'status'];
 		self.beer = function () {
 			return self.beers[0];
 		};

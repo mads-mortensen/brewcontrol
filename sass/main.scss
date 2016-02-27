@@ -2,10 +2,11 @@
 $bc-component-large-height: 14em;
 $bc-footer-height: 3em;
 $bc-spacing-small: 1.5em;
-$background-color-main: #F3F5F6;
+$background-color-main: #F0F0F0;
 $small-radius: 0.3em;
 
-$secondary-color: #4DA398;
+$secondary-color: #566B73;
+$beer-header-color: #473E7D;
 
 $sidebar-width: 14em;
 $sidebar-large-width: 25em;
@@ -76,10 +77,6 @@ html {
 	flex: 15;
 }
 
-.beers {
-	overflow: hidden;
-}
-
 .beer_list {
 	width: $sidebar-width;
 	position: relative;
@@ -94,12 +91,12 @@ html {
 		line-height: 2em;
 		padding: 0 0 0 1em;
 		&.selected, &.selected:hover {
-			background-color: #E1F2EC;
-			border-right: 4px solid #2AB27B;
-			color: #2AB27B;
+			background-color: #E0DCF5;
+			border-right: 4px solid $beer-header-color;
+			color: $beer-header-color;
 		}
 		&:hover {
-			background-color: #F2F2F2;
+			background-color: #F5F5F5;
 			border-right: 4px solid $border-color;
 		}
 		&:focus {
@@ -286,7 +283,7 @@ nav {
 			box-shadow:inset 0 -4px 0 0 $secondary-color;
 		}
 		&:hover {
-			background-color: #F0F7F6;
+			background-color: #F5F9FA;
 		}
 	}
 }
@@ -449,6 +446,162 @@ footer {
 	height: 0.3em;
 }
 
+
+.beers {
+	overflow: hidden;
+	&.full {
+		.beer-outer {
+			&.grid {
+				width: 100%;
+				.beer {
+					margin-left: 0!important;
+					margin-right: 0!important;
+				}
+			}
+		}
+	}
+	.beer-outer {
+		width: 100%;
+		&.grid {
+			width: 50%;
+			float: left;
+			.beer {
+				border: none;
+			}
+			.beer_header_image {
+				
+			}
+			&:nth-child(even) {
+				.beer {
+					margin-left: 0.5em;
+				}
+			}
+			&:nth-child(odd) {
+				.beer {
+					margin-right: 0.5em;
+				}
+			}
+		}
+		&.selected {
+			width: 10%;
+		}
+		.beer {
+			margin-bottom: 1em;
+			background-color: #FFFFFF;
+			border-radius: 4px;
+			overflow: hidden;
+			.header {
+				overflow: hidden;
+				width: 100%;
+				height: 15em;
+				background: url('/images/beer_header.jpg');
+				background-repeat: no-repeat;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+				background-position: 0 5px;
+				h2 {
+					margin: 0;
+					font-size: 1.5em;
+					font-weight: normal;
+					background-color: $beer-header-color;
+					padding: 0.5em;
+					display: block;
+					color: #FFFFFF;
+					.style {
+						font-size: 0.5em;
+					}
+				}
+				.status_bar {
+					background-color: rgba(0, 0, 0, 0.3);
+					font-size: 1em;
+					margin: 0;
+					text-align: right;
+					height: 2em;
+					padding: 0.5em;
+					.status_text {
+						float: right;
+						font-weight: bold;
+						color: #FFFFFF;
+						opacity: 0.8;
+						text-transform: uppercase;
+					}
+					.status_icon {
+						background-color: #2AB27B;
+						opacity: 0.8;
+						border-radius: 0.5em;
+						width: 1em;
+						height: 1em;
+						float: right;
+						margin-left: 0.5em;
+						&.status_0 {
+							background-color: #E87474;
+						}
+						&.status_1 {
+							background-color: #E8E474;
+						}
+						&.status_5 {
+							background-color: #EBD057;
+						}
+					}
+				}
+			}
+			.field {
+				width: 100%;	
+				border: 1px solid $secondary-color;
+				background-color: #F9F9F9;
+				color: $secondary-color;
+				opacity: 0.8;
+				margin: 0;
+				padding: 0 0.5em 0 0.5em;
+				height: 2em;
+				font-size: 1em;
+				&:focus {
+					outline: 0;
+				}
+			}
+			.inner {
+				margin: 1em 0;
+			}
+			.label {
+				padding: 0.2em 0.4em;
+				color: #FFFFFF;
+				font-size: 13px;	
+				background-color: $secondary-color;
+				display: inline-block;
+			}
+			.buttons {
+				display: block;
+				overflow: hidden;
+				button {
+					float: right;
+					margin-right: 0;
+					margin-left: 0.5em;
+				}
+			}
+			a {
+				text-decoration: none;
+				color: inherit;
+				cursor: pointer;
+			}
+		}
+	}
+}
+
+.beer_section {
+	margin: 0 1em 1em 1em;
+	overflow: hidden;
+	display: block;
+	button {
+		float: right;
+		margin: 0 0 0 0.5em;
+		&.large {
+			font-size: 1em;
+		}
+	}
+}
+
 /* INPUT */
 button {
 	border: none;
@@ -542,115 +695,6 @@ td, th {
 	border: none;
 }
 
-.beer-outer {
-	width: 100%;
-	&.full {
-		&.grid {
-			width: 100%;
-			.beer {
-				margin-left: 0!important;
-				margin-right: 0!important;
-			}
-		}
-	}
-	&.grid {
-		width: 50%;
-		float: left;
-		.beer_header_image {
-			margin-bottom: 1em;
-		}
-		&:nth-child(even) {
-			.beer {
-				margin-left: 0.5em;
-			}
-		}
-		&:nth-child(odd) {
-			.beer {
-				margin-right: 0.5em;
-			}
-		}
-	}
-	&.selected {
-		width: 10%;
-	}
-}
-.beer {
-	padding: 2em;
-	margin-bottom: 1em;
-	background-color: #FFFFFF;
-	border: 1px solid $border-color;
-	border-radius: 0px;
-	h2 {
-		margin: 0;
-		font-size: 1.5em;
-		font-weight: normal;
-		background-color: $secondary-color;
-		padding: 0.5em;
-		display: block;
-		color: #FFFFFF;
-		.style {
-			font-size: 0.5em;
-		}
-		&:hover {
-			opacity: 0.7;
-		}
-	}
-	input.field {
-		width: 100%;	
-		border: 1px solid $secondary-color;
-		background-color: #F9F9F9;
-		color: $secondary-color;
-		opacity: 0.8;
-		margin: 0;
-		padding: 0 0.5em 0 0.5em;
-		height: 2em;
-		font-size: 1em;
-		&:focus {
-			outline: 0;
-		}
-	}
-	.inner {
-		margin: 1em 0;
-	}
-	.label {
-		padding: 0.2em 0.4em;
-		color: #FFFFFF;
-		font-size: 13px;	
-		background-color: $secondary-color;
-		display: inline-block;
-	}
-	.buttons {
-		display: block;
-		overflow: hidden;
-		button {
-			float: right;
-			margin-right: 0;
-			margin-left: 0.5em;
-		}
-	}
-	a {
-		text-decoration: none;
-		color: inherit;
-		cursor: pointer;
-	}
-}
-
-.beer_section {
-	margin-bottom: 1em;
-	overflow: hidden;
-	display: block;
-	button {
-		float: right;
-		margin: 0 0 0 0.5em;
-		&.large {
-			font-size: 1em;
-		}
-	}
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
 thead {
 	th, tr {
 		border: none;
@@ -717,18 +761,6 @@ thead {
 .fade-leave {
 	opacity: 0;
 	transition: none
-}
-
-.beer_header_image {
-	width: 100%;
-	height: 15em;
-	-webkit-filter: grayscale(100%);
-	filter: grayscale(100%);
-	background-repeat: no-repeat;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
 }
 
 .slide-transition {

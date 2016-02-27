@@ -1,7 +1,7 @@
 /* TODO: !! most styling is just for testing */
 /* UI elements */
 body {
-  background-color: #F3F5F6;
+  background-color: #F0F0F0;
   font-family: Arial;
   margin: 0;
   padding: 0;
@@ -46,9 +46,6 @@ html {
   float: left;
   flex: 15; }
 
-.beers {
-  overflow: hidden; }
-
 .beer_list {
   width: 14em;
   position: relative;
@@ -63,11 +60,11 @@ html {
     line-height: 2em;
     padding: 0 0 0 1em; }
     .beer_list .beer_list_beer.selected, .beer_list .beer_list_beer.selected:hover {
-      background-color: #E1F2EC;
-      border-right: 4px solid #2AB27B;
-      color: #2AB27B; }
+      background-color: #E0DCF5;
+      border-right: 4px solid #473E7D;
+      color: #473E7D; }
     .beer_list .beer_list_beer:hover {
-      background-color: #F2F2F2;
+      background-color: #F5F5F5;
       border-right: 4px solid #DEDEDE; }
 
 .content_header {
@@ -87,8 +84,8 @@ html {
     .content_header .col.center {
       text-align: center; }
       .content_header .col.center .button {
-        border: 1px solid #4DA398;
-        color: #4DA398;
+        border: 1px solid #566B73;
+        color: #566B73;
         text-decoration: none; }
         .content_header .col.center .button:hover {
           opacity: 0.6; }
@@ -138,7 +135,7 @@ header {
     flex: 0 0 0; }
   .sidebar select {
     border-radius: 0.5em;
-    color: #4DA398;
+    color: #566B73;
     height: 2em;
     font-size: 0.7em; }
   .sidebar h3 {
@@ -160,7 +157,7 @@ header {
     border-top: 1px solid #DEDEDE;
     padding-left: 0.5em;
     margin-bottom: 0.5em;
-    color: #4DA398;
+    color: #566B73;
     opacity: 0.5; }
   .sidebar .sidebar_section {
     width: 14em;
@@ -192,7 +189,7 @@ header {
     margin-bottom: 0.5em; }
     .sidebar form label {
       display: block;
-      color: #4DA398;
+      color: #566B73;
       font-size: 0.5em;
       margin-bottom: 0.5em; }
 
@@ -209,13 +206,13 @@ nav {
     margin: 0;
     padding: 0 2em;
     text-decoration: none;
-    color: #4DA398; }
+    color: #566B73; }
     nav a.active, nav a.active:hover {
-      -webkit-box-shadow: inset 0 -4px 0 0 #4DA398;
-      -moz-box-shadow: inset 0 -4px 0 0 #4DA398;
-      box-shadow: inset 0 -4px 0 0 #4DA398; }
+      -webkit-box-shadow: inset 0 -4px 0 0 #566B73;
+      -moz-box-shadow: inset 0 -4px 0 0 #566B73;
+      box-shadow: inset 0 -4px 0 0 #566B73; }
     nav a:hover {
-      background-color: #F0F7F6; }
+      background-color: #F5F9FA; }
 
 footer {
   clear: both;
@@ -255,8 +252,8 @@ footer {
 
 .component {
   background-color: #FFFFFF;
-  border-bottom: 1px solid #4DA398;
-  color: #4DA398;
+  border-bottom: 1px solid #566B73;
+  color: #566B73;
   font-size: 1em; }
   .component:last-child {
     margin-bottom: 0;
@@ -266,7 +263,7 @@ footer {
     .component .component_label .button {
       display: inline-block;
       float: right;
-      color: #4DA398;
+      color: #566B73;
       font-weight: bold;
       cursor: pointer;
       font-size: 0.8em;
@@ -277,7 +274,7 @@ footer {
     margin: 0 0.5em 0.5em 0 !important; }
 
 .component-options {
-  background-color: #4DA398;
+  background-color: #566B73;
   color: #FFFFFF;
   margin: 0;
   margin-bottom: 0.5em;
@@ -287,7 +284,7 @@ footer {
     margin-bottom: 0.2em; }
 
 .components {
-  border: 1px solid #4DA398; }
+  border: 1px solid #566B73; }
   .components button {
     font-size: 0.7em; }
 
@@ -299,7 +296,7 @@ footer {
     width: 100%; }
   .component-option select {
     border-radius: 0.5em;
-    color: #4DA398;
+    color: #566B73;
     height: 3em; }
 
 .bc-column {
@@ -346,6 +343,121 @@ footer {
   padding: 0;
   display: block;
   height: 0.3em; }
+
+.beers {
+  overflow: hidden; }
+  .beers.full .beer-outer.grid {
+    width: 100%; }
+    .beers.full .beer-outer.grid .beer {
+      margin-left: 0 !important;
+      margin-right: 0 !important; }
+  .beers .beer-outer {
+    width: 100%; }
+    .beers .beer-outer.grid {
+      width: 50%;
+      float: left; }
+      .beers .beer-outer.grid .beer {
+        border: none; }
+      .beers .beer-outer.grid:nth-child(even) .beer {
+        margin-left: 0.5em; }
+      .beers .beer-outer.grid:nth-child(odd) .beer {
+        margin-right: 0.5em; }
+    .beers .beer-outer.selected {
+      width: 10%; }
+    .beers .beer-outer .beer {
+      margin-bottom: 1em;
+      background-color: #FFFFFF;
+      border-radius: 4px;
+      overflow: hidden; }
+      .beers .beer-outer .beer .header {
+        overflow: hidden;
+        width: 100%;
+        height: 15em;
+        background: url("/images/beer_header.jpg");
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-position: 0 5px; }
+        .beers .beer-outer .beer .header h2 {
+          margin: 0;
+          font-size: 1.5em;
+          font-weight: normal;
+          background-color: #473E7D;
+          padding: 0.5em;
+          display: block;
+          color: #FFFFFF; }
+          .beers .beer-outer .beer .header h2 .style {
+            font-size: 0.5em; }
+        .beers .beer-outer .beer .header .status_bar {
+          background-color: rgba(0, 0, 0, 0.3);
+          font-size: 1em;
+          margin: 0;
+          text-align: right;
+          height: 2em;
+          padding: 0.5em; }
+          .beers .beer-outer .beer .header .status_bar .status_text {
+            float: right;
+            font-weight: bold;
+            color: #FFFFFF;
+            opacity: 0.8;
+            text-transform: uppercase; }
+          .beers .beer-outer .beer .header .status_bar .status_icon {
+            background-color: #2AB27B;
+            opacity: 0.8;
+            border-radius: 0.5em;
+            width: 1em;
+            height: 1em;
+            float: right;
+            margin-left: 0.5em; }
+            .beers .beer-outer .beer .header .status_bar .status_icon.status_0 {
+              background-color: #E87474; }
+            .beers .beer-outer .beer .header .status_bar .status_icon.status_1 {
+              background-color: #E8E474; }
+            .beers .beer-outer .beer .header .status_bar .status_icon.status_5 {
+              background-color: #EBD057; }
+      .beers .beer-outer .beer .field {
+        width: 100%;
+        border: 1px solid #566B73;
+        background-color: #F9F9F9;
+        color: #566B73;
+        opacity: 0.8;
+        margin: 0;
+        padding: 0 0.5em 0 0.5em;
+        height: 2em;
+        font-size: 1em; }
+        .beers .beer-outer .beer .field:focus {
+          outline: 0; }
+      .beers .beer-outer .beer .inner {
+        margin: 1em 0; }
+      .beers .beer-outer .beer .label {
+        padding: 0.2em 0.4em;
+        color: #FFFFFF;
+        font-size: 13px;
+        background-color: #566B73;
+        display: inline-block; }
+      .beers .beer-outer .beer .buttons {
+        display: block;
+        overflow: hidden; }
+        .beers .beer-outer .beer .buttons button {
+          float: right;
+          margin-right: 0;
+          margin-left: 0.5em; }
+      .beers .beer-outer .beer a {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer; }
+
+.beer_section {
+  margin: 0 1em 1em 1em;
+  overflow: hidden;
+  display: block; }
+  .beer_section button {
+    float: right;
+    margin: 0 0 0 0.5em; }
+    .beer_section button.large {
+      font-size: 1em; }
 
 /* INPUT */
 button {
@@ -421,87 +533,6 @@ td, th {
   vertical-align: top;
   border: none; }
 
-.beer-outer {
-  width: 100%; }
-  .beer-outer.full.grid {
-    width: 100%; }
-    .beer-outer.full.grid .beer {
-      margin-left: 0 !important;
-      margin-right: 0 !important; }
-  .beer-outer.grid {
-    width: 50%;
-    float: left; }
-    .beer-outer.grid .beer_header_image {
-      margin-bottom: 1em; }
-    .beer-outer.grid:nth-child(even) .beer {
-      margin-left: 0.5em; }
-    .beer-outer.grid:nth-child(odd) .beer {
-      margin-right: 0.5em; }
-  .beer-outer.selected {
-    width: 10%; }
-
-.beer {
-  padding: 2em;
-  margin-bottom: 1em;
-  background-color: #FFFFFF;
-  border: 1px solid #DEDEDE;
-  border-radius: 0px; }
-  .beer h2 {
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: normal;
-    background-color: #4DA398;
-    padding: 0.5em;
-    display: block;
-    color: #FFFFFF; }
-    .beer h2 .style {
-      font-size: 0.5em; }
-    .beer h2:hover {
-      opacity: 0.7; }
-  .beer input.field {
-    width: 100%;
-    border: 1px solid #4DA398;
-    background-color: #F9F9F9;
-    color: #4DA398;
-    opacity: 0.8;
-    margin: 0;
-    padding: 0 0.5em 0 0.5em;
-    height: 2em;
-    font-size: 1em; }
-    .beer input.field:focus {
-      outline: 0; }
-  .beer .inner {
-    margin: 1em 0; }
-  .beer .label {
-    padding: 0.2em 0.4em;
-    color: #FFFFFF;
-    font-size: 13px;
-    background-color: #4DA398;
-    display: inline-block; }
-  .beer .buttons {
-    display: block;
-    overflow: hidden; }
-    .beer .buttons button {
-      float: right;
-      margin-right: 0;
-      margin-left: 0.5em; }
-  .beer a {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer; }
-
-.beer_section {
-  margin-bottom: 1em;
-  overflow: hidden;
-  display: block; }
-  .beer_section button {
-    float: right;
-    margin: 0 0 0 0.5em; }
-    .beer_section button.large {
-      font-size: 1em; }
-  .beer_section:last-child {
-    margin-bottom: 0; }
-
 thead th, thead tr {
   border: none;
   text-align: left; }
@@ -551,17 +582,6 @@ thead th, thead tr {
 .fade-leave {
   opacity: 0;
   transition: none; }
-
-.beer_header_image {
-  width: 100%;
-  height: 15em;
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; }
 
 .slide-transition {
   transition: flex .3s ease; }

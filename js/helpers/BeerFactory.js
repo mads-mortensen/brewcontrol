@@ -3,7 +3,7 @@ module.exports = function() {
 	self.Beer = require('../models/Beer');
 	self.beers = [];
 	self.beer_headers = [];
-	self.beer_headers_ignore = ['_id', '__v'];
+	self.beer_headers_ignore = ['_id', '__v', 'status'];
 	self.beer = () => self.beers[0];
 	self.lastBeer = () => self.beers[self.beers.length-1];
 	// Fetch all beers -> instatiate beer objects -> save in this.beers ->  save headers in this.beer_headers

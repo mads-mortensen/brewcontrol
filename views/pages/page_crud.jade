@@ -15,11 +15,11 @@ block sidebar
 					h2 Beers
 					.beer_list_beer(
 						v-bind:class="{ selected: selectedBeer == '' }"
-						@click="selectedBeer = ''"
+						@click="selectedBeer = '', updateGridView()"
 					) All
 					.beer_list_beer(
 						v-for="beer in beerFactory.beers"
-						@click="selectedBeer = beer"
+						@click="selectedBeer = beer, updateGridView()"
 						v-bind:class="{ selected: selectedBeer == beer }"
 					) {{ beer.data.name }}
 block sidebar-right
@@ -121,8 +121,12 @@ block content
 						v-bind:class="{ selected: selectedBeer == beer }"
 					)
 						a(@click="selectedBeer = beer")
+							.header
+								.background-image
 								h2 {{ beer.data.name }} <span class='style'>{{ beer.data.style }}</span>
-						.beer_header_image(style="background-image: url('/images/beer_header.jpg')")
+								.status_bar
+									.status_icon(class='status_{{ beer.data.status }}')
+									.status_text {{ beer_status[beer.data.status] }}
 						.beer_section(v-if="selectedBeer != ''")
 							.inner(v-for="header in beerFactory.beer_headers")
 								.label {{ header }}
@@ -132,6 +136,19 @@ block content
 									@change="beer.edited = true"
 									@keyup.enter="beer.save"
 								)
+							.inner
+								.label Status
+								select.field(
+									v-model="beer.data.status" 
+									@change="beer.edited = true"
+									@keyup.enter="beer.save"
+								)
+									option(value=0) Idea
+									option(value=1) Scheduled for brewing
+									option(value=2) Brewing
+									option(value=3) Conditioning
+									option(value=4) Dry hopping
+									option(value=5) On tap
 						.beer_section(v-if="selectedBeer != ''")
 							.label Components
 							.components
@@ -168,7 +185,7 @@ block content
 											@click="component.saveComponentData" 
 											v-bind:class="{ inactive : !component.edited }"
 										) Save
-						.beer_section
+						.beer_section(v-if="selectedBeer != ''")
 							button.large.red(@click="confirm('delete?', beer.delete, beerFactory.setupBeers)") X
 							button.large(
 								@click="beer.save" 
