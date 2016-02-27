@@ -506,7 +506,11 @@ footer {
 					font-size: 1.5em;
 					font-weight: normal;
 					background-color: $beer-header-color;
-					padding: 0.5em;
+					background: -moz-linear-gradient(left,  #473e7d 0%, #4b508e 100%); /* FF3.6-15 */
+					background: -webkit-linear-gradient(left,  #473e7d 0%,#4b508e 100%); /* Chrome10-25,Safari5.1-6 */
+					background: linear-gradient(to right,  #473e7d 0%,#4b508e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#473e7d', endColorstr='#4b508e',GradientType=1 ); /* IE6-9 */
+					padding: 0.5em 0.7em;
 					display: block;
 					color: #FFFFFF;
 					.style {
