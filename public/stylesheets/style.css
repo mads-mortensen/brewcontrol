@@ -345,7 +345,10 @@ footer {
   height: 0.3em; }
 
 .beers {
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 1000px;
+  /* TODO */ }
   .beers.full .beer-outer.grid {
     width: 100%; }
     .beers.full .beer-outer.grid .beer {
